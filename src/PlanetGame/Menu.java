@@ -1,4 +1,4 @@
-package com.company;
+package PlanetGame;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;

@@ -1,5 +1,4 @@
-package com.company;
-
+package PlanetGame;
 
 import java.util.Random;
 

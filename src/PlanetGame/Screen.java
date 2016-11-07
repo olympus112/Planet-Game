@@ -1,4 +1,4 @@
-package com.company;
+package PlanetGame;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -34,10 +34,13 @@ class Screen extends BasicGameState{
         if(keys[Input.KEY_SPACE])
             if(container.isPaused()) container.resume();
             else container.pause();
+        if(keys[Input.KEY_ESCAPE])
+            System.exit(0);
     }
 
     @Override public void keyPressed(int key, char c) {
         keys[key] = true;
+        System.out.println("key = [" + key + "], c = [" + c + "]");
     }
 
     @Override public void keyReleased(int key, char c) {

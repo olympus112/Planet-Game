@@ -1,4 +1,4 @@
-package com.company;
+package PlanetGame;
 
 import org.newdawn.slick.Input;
 
