@@ -2,25 +2,23 @@ package PlanetGame;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.fills.GradientFill;
-import org.newdawn.slick.geom.Circle;
 
 import java.awt.*;
-import java.awt.geom.Arc2D;
 
 class Planet {
 
-    private float x;
-    private float y;
-    private float size;
-    private float mass;
-    private float moonAngle;
-    private float moonSize;
-    private float moonVelocity;
-    private boolean moon;
-    private int luminance;
-    private int planetType;
-    private int layerWidth = 1;
+    double x;
+    double y;
+    double size;
+    double mass;
+    double attractionRadius;
+    double moonAngle;
+    double moonSize;
+    double moonVelocity;
+    boolean moon;
+    int luminance;
+    int planetType;
+    int layerWidth = 1;
 
     String[][] planetTypes = {
             {"#002600", "#003300", "#004000", "#004c00", "#005900", "#006600", "#007300"}, //green
@@ -34,7 +32,7 @@ class Planet {
             {"#421010", "#521515", "#631919", "#731d1d", "#842121", "#942525", "#a52a2a"} //brown
     };
 
-    Planet(float x, float y, float size, float mass, int PlanetType, int luminance){
+    Planet(double x, double y, double size, double mass, int PlanetType, int luminance){
             this.x = x;
             this.y = y;
             this.size = size;
@@ -44,7 +42,7 @@ class Planet {
             this.moon = false;
     }
 
-    public Planet(float x, float y, float size, float mass, int PlanetType, int luminance, float moonAngle, float moonSize, float moonVelocity){
+    public Planet(double x, double y, double size, double mass, int PlanetType, int luminance, double moonAngle, double moonSize, double moonVelocity){
         this.x = x;
         this.y = y;
         this.size = size;
@@ -59,19 +57,72 @@ class Planet {
 
     public void draw(Graphics g){
         moonAngle += moonVelocity;
-        g.draw(new Circle(x, y, size), new GradientFill(x-size/2, y-size/2, Color.blue, x+size/2, y+size/2, Color.red));
 
-        if(moon) {
-            g.setColor(Color.decode(planetTypes[planetType][0]).darker());
-            g.draw(new Circle(
-                    (float)(x + Math.cos(moonAngle)*2*size/1.34),
-                    (float)(y + Math.sin(moonAngle)*2*size/1.34),
-                    moonSize));
-            g.setColor(Color.decode(planetTypes[planetType][planetTypes[planetType].length-1]));
-            g.draw(new Circle(
-                    (float)(x + Math.cos(moonAngle)*2*size/1.34),
-                    (float)(y + Math.sin(moonAngle)*2*size/1.34),
-                    moonSize));
+        Color tempColor;
+        double layer = size;
+        double planetX = Math.round(x + Main.screen.getHeight()/2 - Screen.rocket.position.getX());
+        double planetY = Math.round(y + Main.screen.getHeight()/2 - Screen.rocket.position.getY());
+        double rocketX = Main.screen.getWidth()/2 - Rocket.rocketImage.getWidth()/2;
+        double rocketY = Main.screen.getHeight()/2 - Rocket.rocketImage.getHeight()/2;
+
+        // choose planet type
+        for(int i = 0; i < planetTypes[planetType].length; i++) {
+            switch (luminance) {
+                case -1:
+                    tempColor = Color.decode(planetTypes[planetType][i]).darker();
+                    break;
+                case 1:
+                    tempColor = Color.decode(planetTypes[planetType][i]).brighter();
+                    break;
+                default:
+                    tempColor = Color.decode(planetTypes[planetType][i]);
+                    break;
+            }
+            g.setColor(tempColor);
+
+            // draw layers
+            g.fillOval(
+                    (int)(planetX - layer/2),
+                    (int)(planetY - layer/2),
+                    (int)Math.round(layer),
+                    (int)Math.round(layer)
+            );
+
+            // draw moon ring if there is a moon
+            if(moon) {
+                g.setColor(Color.decode(planetTypes[planetType][0]).darker());
+                g.fillOval(
+                        (int)(planetX + Math.cos(moonAngle)*size/1.34 - moonSize/2),
+                        (int)(planetY + Math.sin(moonAngle)*size/1.34 - moonSize/2),
+                        (int)moonSize,
+                        (int)moonSize);
+                g.setColor(Color.decode(planetTypes[planetType][planetTypes[planetType].length-1]));
+                g.drawOval(
+                        (int)(planetX + Math.cos(moonAngle)*size/1.34 - moonSize/2),
+                        (int)(planetY + Math.sin(moonAngle)*size/1.34 - moonSize/2),
+                        (int)moonSize,
+                        (int)moonSize);
+            }
+
+            // reduce layer size
+            layer -= size / (layerWidth * planetTypes[planetType].length);
+
+            // draw line if attracted
+            if (Point.distance(x, y, Screen.rocket.position.getX(), Screen.rocket.position.getY()) < 1.5 * size) {
+                double xd = rocketX - planetX;
+                double yd = rocketY - planetY;
+                double distance = Math.max(Math.sqrt(xd*xd + yd*yd), 5);
+                double F = mass / distance;
+
+                Screen.rocket.velocity = Screen.rocket.velocity.addVector(new Vector(-F*(xd/distance)*0.999999, -F*(yd/distance)*0.999999));
+
+                g.drawString(String.valueOf(Point.distance(x, y, Screen.rocket.position.getX(), Screen.rocket.position.getY())), 10, 50);
+                g.drawOval(
+                        (int)(planetX - size/2),
+                        (int)(planetY - size/2),
+                        (int)size,
+                        (int)size);
+            }
         }
     }
 
@@ -87,9 +138,9 @@ class Planet {
         int sizeMin = 150;
         int sizeRand = 100;
         int moonSize = 25;
-        float moonChance = 0.4f;
-        float planetChance = 0.5f;
-        float mass = 0.05f;
+        double moonChance = 0.4;
+        double planetChance = 0.5;
+        double mass = 0.05;
 
         for (String param : params) {
             String key = param.split(":")[0];
@@ -106,9 +157,9 @@ class Planet {
             sizeMin = (key.equalsIgnoreCase("sizeMin")) ? Integer.parseInt(value) : sizeMin;
             sizeRand = (key.equalsIgnoreCase("sizeRand")) ? Integer.parseInt(value) : sizeRand;
             moonSize = (key.equalsIgnoreCase("moonSize")) ? Integer.parseInt(value) : moonSize;
-            moonChance = (key.equalsIgnoreCase("moonChance")) ? Float.parseFloat(value) : moonChance;
-            planetChance = (key.equalsIgnoreCase("planetChance")) ? Float.parseFloat(value) : planetChance;
-            mass = (key.equalsIgnoreCase("mass")) ? Float.parseFloat(value) : mass;
+            moonChance = (key.equalsIgnoreCase("moonChance")) ? Double.parseDouble(value) : moonChance;
+            planetChance = (key.equalsIgnoreCase("planetChance")) ? Double.parseDouble(value) : planetChance;
+            mass = (key.equalsIgnoreCase("mass")) ? Double.parseDouble(value) : mass;
         }
 
         for(int x = xMin; x < xMax; x += dX){
@@ -132,9 +183,9 @@ class Planet {
                                         mass, // mass
                                         Util.random.nextInt(9), // planetType
                                         -1 + Util.random.nextInt(3), // luminance
-                                        (float)Math.toRadians(Util.random.nextInt(360)), // moonAngle
+                                        Math.toRadians(Util.random.nextInt(360)), // moonAngle
                                         moonSize, //moonSize
-                                        (float)(1 + Util.random.nextInt(4)) * 0.0007f)); //moonVelocity
+                                        (1 + Util.random.nextInt(4)) * 0.0007)); //moonVelocity
             }
         }
     }

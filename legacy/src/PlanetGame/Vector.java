@@ -13,6 +13,7 @@ class Vector {
     static Vector fromPolar(double r, double angle){
         return new Vector(r*Math.cos(angle),r*Math.sin(angle));
     }
+
     public Vector addVector(Vector a){
         return new Vector(x+a.x, y+a.y);
     }

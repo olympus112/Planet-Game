@@ -23,8 +23,7 @@ class Screen extends BasicGameState{
     @Override public void init(GameContainer container, StateBasedGame game) throws SlickException {
         rocket = new Rocket(0, 0);
         planets = new ArrayList<>();
-        planets.add(new Planet(300, 300, 100, 1, 1, 1, 90, 20, 0.001f));
-        //Planet.generate();
+        Planet.generate();
     }
 
     @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
@@ -32,9 +31,6 @@ class Screen extends BasicGameState{
     }
 
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-
-
-        // Keyboard event
         if(keys[Input.KEY_SPACE])
             if(container.isPaused()) container.resume();
             else container.pause();
