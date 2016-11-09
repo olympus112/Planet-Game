@@ -3,17 +3,13 @@ package PlanetGame;
 import java.awt.Dimension;
 
 import org.newdawn.slick.*;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.BlobbyTransition;
-import org.newdawn.slick.state.transition.EmptyTransition;
-
 import java.awt.*;
 
 public class Main extends StateBasedGame {
 
     private static String title;
-    static Dimension screen;
+    private static Dimension screen;
     static int SCREEN;
     static int MENU;
 
@@ -34,10 +30,9 @@ public class Main extends StateBasedGame {
         super(title);
     }
 
-    @Override
-    public void initStatesList(GameContainer container) throws SlickException {
+    @Override public void initStatesList(GameContainer container) throws SlickException {
         addState(new Menu());
         addState(new Screen());
-        enterState(SCREEN);
+        enterState(MENU);
     }
 }

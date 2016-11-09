@@ -58,21 +58,7 @@ class Planet {
     }
 
     public void draw(Graphics g){
-        moonAngle += moonVelocity;
-        g.draw(new Circle(x, y, size), new GradientFill(x-size/2, y-size/2, Color.blue, x+size/2, y+size/2, Color.red));
 
-        if(moon) {
-            g.setColor(Color.decode(planetTypes[planetType][0]).darker());
-            g.draw(new Circle(
-                    (float)(x + Math.cos(moonAngle)*2*size/1.34),
-                    (float)(y + Math.sin(moonAngle)*2*size/1.34),
-                    moonSize));
-            g.setColor(Color.decode(planetTypes[planetType][planetTypes[planetType].length-1]));
-            g.draw(new Circle(
-                    (float)(x + Math.cos(moonAngle)*2*size/1.34),
-                    (float)(y + Math.sin(moonAngle)*2*size/1.34),
-                    moonSize));
-        }
     }
 
     static void generate(String... params) {

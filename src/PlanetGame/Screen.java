@@ -28,7 +28,7 @@ class Screen extends BasicGameState{
     }
 
     @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        planets.forEach(p -> p.draw(g));
+
     }
 
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
