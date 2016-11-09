@@ -21,14 +21,10 @@ class Menu extends BasicGameState{
     }
 
     @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.draw(p);
+
 
     }
 
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        p = (Polygon) p.transform(new Transform(new float[]{
-                (float)Math.cos(0.001), 1, 0.01f,
-                0, 1, 0
-        }));
     }
 }

@@ -28,7 +28,7 @@ class Screen extends BasicGameState{
     }
 
     @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-
+        rocket.draw(g);
     }
 
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
@@ -40,6 +40,14 @@ class Screen extends BasicGameState{
             else container.pause();
         if(keys[Input.KEY_ESCAPE])
             System.exit(0);
+        if(keys[Input.KEY_Q]) {
+            rocket.angle = (rocket.angle - delta / 1000f) % Util.PI_2;
+            rocket.angle += (rocket.angle < 0)? Util.PI_2 : 0;
+        }
+        if(keys[Input.KEY_D])
+            rocket.angle = (rocket.angle + delta / 1000f) % Util.PI_2;
+        if(keys[Input.KEY_Z])
+            rocket.velocity.add(Vector.fromPolar(0.005f, rocket.angle));
     }
 
     @Override public void keyPressed(int key, char c) {
