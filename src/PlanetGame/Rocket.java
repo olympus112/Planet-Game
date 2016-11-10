@@ -2,16 +2,17 @@ package PlanetGame;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Vector2f;
 
 class Rocket {
 
-    Vector position;
-    Vector velocity;
+    Vector2f position;
+    Vector2f velocity;
     float angle;
 
     Rocket(float x, float y) {
-        position = new Vector(x, y);
-        velocity = new Vector(0, 0);
+        position = new Vector2f(x, y);
+        velocity = new Vector2f(0, 0);
     }
 
     public void draw(Graphics g) {

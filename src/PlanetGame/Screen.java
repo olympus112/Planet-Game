@@ -47,7 +47,7 @@ class Screen extends BasicGameState{
         if(keys[Input.KEY_D])
             rocket.angle = (rocket.angle + delta / 1000f) % Util.PI_2;
         if(keys[Input.KEY_Z])
-            rocket.velocity.add(Vector.fromPolar(0.005f, rocket.angle));
+            rocket.velocity.add(Util.fromPolar(0.005f, rocket.angle));
     }
 
     @Override public void keyPressed(int key, char c) {
