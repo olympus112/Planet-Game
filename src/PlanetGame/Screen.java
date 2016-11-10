@@ -21,8 +21,8 @@ import view.Camera;
 class Screen extends BasicGameState{
 
     private static List<Planet> planets;
-    private Rocket rocket;
     private static Camera camera;
+    private Rocket rocket;
     static boolean[] keys = new boolean[256];
 
     @Override public int getID() {
@@ -32,9 +32,12 @@ class Screen extends BasicGameState{
     @Override public void init(GameContainer container, StateBasedGame game) throws SlickException {
         rocket = new Rocket(0, 0);
         planets = new ArrayList<>();
-        planets.add(new CirclePlanet(new Vector2f(100f, 100f), 50f, 50f));
-        //Planet.generate();
-        
+        for (int i = -10; i < 10; i++) {
+            for (int j = -10; j < 10; j++) {
+                planets.add(new CirclePlanet(new Vector2f(20*i, 20*i), 50f, 50f));
+            }
+        }
+
         camera = new Camera(1.0);
         camera.setFocus(rocket.position);
     }
@@ -46,10 +49,9 @@ class Screen extends BasicGameState{
         }
     }
 
-
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-    	for(Planet p:planets){
-    		p.update(delta);
+    	for(Planet planet : planets){
+    		planet.update(delta);
     	}
     	
         // Keyboard event
@@ -59,11 +61,11 @@ class Screen extends BasicGameState{
         if(keys[Input.KEY_ESCAPE])
             System.exit(0);
         if(keys[Input.KEY_Q]) {
-            rocket.angle = (rocket.angle - delta / 500f) % Util.PI_2;
-            rocket.angle += (rocket.angle < 0)? Util.PI_2 : 0;
+            rocket.angle = (rocket.angle - delta / 500f) % ((float) Math.PI * 2);
+            rocket.angle += (rocket.angle < 0)? (float) Math.PI * 2 : 0;
         }
         if(keys[Input.KEY_D])
-            rocket.angle = (rocket.angle + delta / 500f) % Util.PI_2;
+            rocket.angle = (rocket.angle + delta / 500f) % ((float) Math.PI * 2);
         if(keys[Input.KEY_Z])
             rocket.velocity.add(Util.fromPolar(0.005f, rocket.angle));
     }

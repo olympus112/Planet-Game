@@ -1,12 +1,8 @@
 package view;
 
-
-
 import org.newdawn.slick.geom.Vector2f;
 
 import PlanetGame.Main;
-
-
 
 public class Camera {
 	private double zoom;
@@ -24,6 +20,8 @@ public class Camera {
 	}
 	
 	public Vector2f realToPixelCoords(Vector2f vector){
-		return new Vector2f((float) ((vector.x - focus.x) * zoom + Main.screenSize.getWidth() / 2), (float) ((vector.y - focus.y) * zoom + Main.screenSize.getHeight() / 2));
+		return new Vector2f(
+				(float) ((vector.x - focus.x) * zoom + Main.screenSize.getWidth() / 2),
+				(float) ((vector.y - focus.y) * zoom + Main.screenSize.getHeight() / 2));
 	}
 }

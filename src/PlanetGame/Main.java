@@ -10,7 +10,7 @@ import java.awt.*;
 public class Main extends StateBasedGame {
 
     private static String title;
-    public static Dimension screenSize = new Dimension(800, 800);
+    public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     static int SCREEN;
     static int MENU;
 
@@ -21,7 +21,7 @@ public class Main extends StateBasedGame {
     }
 
     public static void main(String[] args) throws SlickException {
-        AppGameContainer gameContainer = new AppGameContainer(new Main(title), screenSize.width, screenSize.height, false);
+        AppGameContainer gameContainer = new AppGameContainer(new Main(title), screenSize.width, screenSize.height, true);
         gameContainer.start();
     }
     
