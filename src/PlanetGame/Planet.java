@@ -4,15 +4,15 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.fills.GradientFill;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Vector2f;
 
 import java.awt.*;
 import java.awt.geom.Arc2D;
 
 class Planet {
 
-    private float x;
-    private float y;
-    private float size;
+    public Vector2f position;
+    public float size;
     private float mass;
     private float moonAngle;
     private float moonSize;
@@ -35,8 +35,7 @@ class Planet {
     };
 
     Planet(float x, float y, float size, float mass, int PlanetType, int luminance){
-            this.x = x;
-            this.y = y;
+            this.position = new Vector2f(x, y);
             this.size = size;
             this.mass = mass;
             this.planetType = PlanetType;
@@ -45,8 +44,7 @@ class Planet {
     }
 
     public Planet(float x, float y, float size, float mass, int PlanetType, int luminance, float moonAngle, float moonSize, float moonVelocity){
-        this.x = x;
-        this.y = y;
+        this.position = new Vector2f(x, y);
         this.size = size;
         this.mass = mass;
         this.planetType = PlanetType;
@@ -58,7 +56,8 @@ class Planet {
     }
 
     public void draw(Graphics g){
-
+        Vector2f rocketPosition = Screen.rocket.position;
+        g.drawOval(position.x - rocketPosition.x, position.y - rocketPosition.y, size, size);
     }
 
     static void generate(String... params) {

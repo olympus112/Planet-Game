@@ -4,6 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -23,12 +24,16 @@ class Screen extends BasicGameState{
     @Override public void init(GameContainer container, StateBasedGame game) throws SlickException {
         rocket = new Rocket(0, 0);
         planets = new ArrayList<>();
-        planets.add(new Planet(300, 300, 100, 1, 1, 1, 90, 20, 0.001f));
-        //Planet.generate();
+        //planets.add(new Planet(300, 300, 100, 1, 1, 1, 90, 20, 0.001f));
+        Planet.generate();
     }
 
     @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         rocket.draw(g);
+        planets.forEach(planet -> {
+            if(planet.position.distance(new Vector2f(Util.screen.width / 2, Util.screen.height / 2)) + planet.size < Util.screenDiagonal / 2)
+                planet.draw(g);
+        });
     }
 
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
@@ -41,11 +46,11 @@ class Screen extends BasicGameState{
         if(keys[Input.KEY_ESCAPE])
             System.exit(0);
         if(keys[Input.KEY_Q]) {
-            rocket.angle = (rocket.angle - delta / 1000f) % Util.PI_2;
+            rocket.angle = (rocket.angle - delta / 500f) % Util.PI_2;
             rocket.angle += (rocket.angle < 0)? Util.PI_2 : 0;
         }
         if(keys[Input.KEY_D])
-            rocket.angle = (rocket.angle + delta / 1000f) % Util.PI_2;
+            rocket.angle = (rocket.angle + delta / 500f) % Util.PI_2;
         if(keys[Input.KEY_Z])
             rocket.velocity.add(Util.fromPolar(0.005f, rocket.angle));
     }
