@@ -12,6 +12,7 @@ public class CirclePlanet implements Planet{
 	private Circle physicsBox;
 	private float mass;
 	
+	public CirclePlanet(Vector2f position, float mass, float width){
 		this.position = position;
 		this.velocity = new Vector2f();
 		this.mass = mass;
@@ -28,6 +29,7 @@ public class CirclePlanet implements Planet{
 	@Override public void draw(Graphics g){
 		g.draw(physicsBox);
 	}
+	@Override public void update(int delta){}
 	
 	
 	
