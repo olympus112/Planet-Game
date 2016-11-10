@@ -1,4 +1,4 @@
-package PlanetGame;
+package util;
 
 
 import org.newdawn.slick.geom.Vector2f;
@@ -11,7 +11,7 @@ public class Util {
     public static float PI;
     public static float PI_2;
 
-    Util(){
+    public Util(){
         random = new Random();
         PI = (float) Math.PI;
         PI_2 = 2 * PI;
