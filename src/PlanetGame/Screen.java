@@ -4,11 +4,17 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import planet.CirclePlanet;
+import planet.Planet;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import util.Util;
 
 class Screen extends BasicGameState{
 
@@ -23,17 +29,22 @@ class Screen extends BasicGameState{
     @Override public void init(GameContainer container, StateBasedGame game) throws SlickException {
         rocket = new Rocket(0, 0);
         planets = new ArrayList<>();
-        planets.add(new Planet(300, 300, 100, 1, 1, 1, 90, 20, 0.001f));
+        planets.add(new CirclePlanet(new Vector2f(100f, 100f), 50f, 50f));
         //Planet.generate();
     }
 
     @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         rocket.draw(g);
+        for(Planet p:planets){
+        	p.draw(g);
+        }
     }
 
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-
-
+    	for(Planet p:planets){
+    		p.update(delta);
+    	}
+    	
         // Keyboard event
         if(keys[Input.KEY_SPACE])
             if(container.isPaused()) container.resume();

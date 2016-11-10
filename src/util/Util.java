@@ -17,7 +17,7 @@ public class Util {
         PI_2 = 2 * PI;
     }
 
-    static Vector2f fromPolar(float r, double angle) {
+    public static Vector2f fromPolar(float r, double angle) {
         return new Vector2f(r * (float) Math.cos(angle), r * (float) Math.sin(angle));
     }
 

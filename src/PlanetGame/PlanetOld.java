@@ -5,15 +5,19 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.fills.GradientFill;
 import org.newdawn.slick.geom.Circle;
 
+import util.Util;
+
 import java.awt.*;
 import java.awt.geom.Arc2D;
 
-class Planet {
+class PlanetOld {
 
     private float x;
     private float y;
     private float size;
     private float mass;
+    
+    
     private float moonAngle;
     private float moonSize;
     private float moonVelocity;
@@ -34,7 +38,7 @@ class Planet {
             {"#421010", "#521515", "#631919", "#731d1d", "#842121", "#942525", "#a52a2a"} //brown
     };
 
-    Planet(float x, float y, float size, float mass, int PlanetType, int luminance){
+    PlanetOld(float x, float y, float size, float mass, int PlanetType, int luminance){
             this.x = x;
             this.y = y;
             this.size = size;
@@ -44,7 +48,7 @@ class Planet {
             this.moon = false;
     }
 
-    public Planet(float x, float y, float size, float mass, int PlanetType, int luminance, float moonAngle, float moonSize, float moonVelocity){
+    public PlanetOld(float x, float y, float size, float mass, int PlanetType, int luminance, float moonAngle, float moonSize, float moonVelocity){
         this.x = x;
         this.y = y;
         this.size = size;
@@ -102,7 +106,7 @@ class Planet {
                 if (Util.random.nextDouble() > planetChance)
                     if(Util.random.nextDouble() > moonChance)
                         Screen.addPlanet(
-                                new Planet(
+                                new PlanetOld(
                                         x + Util.random.nextInt(xRand), // x
                                         y + Util.random.nextInt(yRand), // y
                                         sizeMin + Util.random.nextInt(sizeRand), // size
@@ -111,7 +115,7 @@ class Planet {
                                         -1 + Util.random.nextInt(3))); // luminance
                     else
                         Screen.addPlanet(
-                                new Planet(
+                                new PlanetOld(
                                         x + Util.random.nextInt(xRand), // x
                                         y + Util.random.nextInt(yRand), // y
                                         sizeMin + Util.random.nextInt(sizeRand), // size

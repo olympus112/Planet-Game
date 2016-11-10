@@ -6,6 +6,7 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 import java.awt.*;
 
+
 public class Main extends StateBasedGame {
 
     private static String title;
@@ -21,8 +22,7 @@ public class Main extends StateBasedGame {
     }
 
     public static void main(String[] args) throws SlickException {
-        AppGameContainer gameContainer = new AppGameContainer(new Main(title), screen.width, screen.height, true);
-        Util util = new Util();
+        AppGameContainer gameContainer = new AppGameContainer(new Main(title), screen.width, screen.height, false);
         gameContainer.start();
     }
 
