@@ -3,6 +3,7 @@ package planet;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 
 import planet.Planet;
@@ -23,7 +24,10 @@ public class CirclePlanet implements Planet{
 		return physicsBox;
 	}
 	@Override public void draw(Graphics g){
-		g.draw(physicsBox);
+		g.draw(physicsBox.transform(new Transform(new float[]{
+				1, 0, position.x,
+				0, 1, position.y,
+		})));
 	}
 	@Override public void update(int delta){}
 	@Override public Vector2f getPosition(){return position;}
