@@ -12,8 +12,8 @@ public class Camera {
 	private double zoom;
 	private Vector2f focus = new Vector2f(0, 0);
 	
-	public Camera(double d){
-		this.zoom = d;
+	public Camera(double zoom){
+		this.zoom = zoom;
 	}
 	
 	public void setFocus(Vector2f focusPoint){
