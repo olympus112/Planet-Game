@@ -1,12 +1,11 @@
 package planet;
 
+import PlanetGame.Screen;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
-
-import planet.Planet;
 
 public class CirclePlanet implements Planet{
 	private Vector2f position, velocity;
@@ -25,9 +24,9 @@ public class CirclePlanet implements Planet{
 	}
 	@Override public void draw(Graphics g){
 		g.draw(physicsBox.transform(new Transform(new float[]{
-				1, 0, position.x,
-				0, 1, position.y,
-		})));
+                1, 0, Screen.getCamera().realToPixelCoords(position).x,
+                0, 1, Screen.getCamera().realToPixelCoords(position).y
+        })));
 	}
 	@Override public void update(int delta){}
 	@Override public Vector2f getPosition(){return position;}

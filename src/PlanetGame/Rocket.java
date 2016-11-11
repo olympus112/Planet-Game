@@ -22,7 +22,7 @@ class Rocket {
     public void draw(Graphics g) {
     	
         // Graphical vector representation
-        g.drawGradientLine(450, 450, Color.red, 450 + velocity.x * 10, 450 + velocity.y * 10, Color.green);
+        g.drawGradientLine(450, 450, Color.red, 450 + velocity.x * 30, 450 + velocity.y * 30, Color.green);
         g.drawGradientLine(450, 450, Color.red, 450 + (float) Math.cos(angle) * 50, 450 + (float) Math.sin(angle) * 50, Color.yellow);
         g.drawArc(435, 435, 30, 30,
                 Math.min((float)Math.toDegrees(angle), (float)velocity.getTheta()),

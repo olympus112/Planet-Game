@@ -24,4 +24,8 @@ public class Camera {
 				(float) ((vector.x - focus.x) * zoom + Main.screenSize.getWidth() / 2),
 				(float) ((vector.y - focus.y) * zoom + Main.screenSize.getHeight() / 2));
 	}
+
+	public Vector2f realToPixelCoords(float x, float y) {
+        return realToPixelCoords(new Vector2f(x, y));
+    }
 }
