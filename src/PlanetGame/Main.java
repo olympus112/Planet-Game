@@ -21,7 +21,7 @@ public class Main extends StateBasedGame {
     }
 
     public static void main(String[] args) throws SlickException {
-        AppGameContainer gameContainer = new AppGameContainer(new Main(title), screenSize.width, screenSize.height, true);
+        AppGameContainer gameContainer = new AppGameContainer(new Main(title), screenSize.width, screenSize.height, false);
         gameContainer.start();
     }
     
@@ -32,6 +32,6 @@ public class Main extends StateBasedGame {
     @Override public void initStatesList(GameContainer container) throws SlickException {
         addState(new Menu());
         addState(new Screen());
-        enterState(MENU);
+        enterState(SCREEN);
     }
 }

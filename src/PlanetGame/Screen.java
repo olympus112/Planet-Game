@@ -50,7 +50,7 @@ public class Screen extends BasicGameState{
             //faster check but there should be a general method for checking if a physics object is in the screen ->
             //this is basically if(distance(planet, center) > screenDiagonal / 2) draw(planet)
             //if(camera.realToPixelCoords(planet.getPosition()).distance(new Vector2f(container.getWidth()/2, container.getHeight()/2))
-            // + planet.getPhysicsBox().getWidth()/2 < Math.sqrt(container.getWidth()*container.getWidth()+container.getHeight()*container.getHeight());)
+            //+ planet.getPhysicsBox().getWidth()/2 < Math.sqrt(container.getWidth()*container.getWidth()+container.getHeight()*container.getHeight());)
                 planet.draw(g);
         }
 
