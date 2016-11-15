@@ -2,30 +2,32 @@ package view;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import PlanetGame.Main;
+import util.CoordinateObject;
 
 public class Camera {
-	private double zoom;
-	private Vector2f focus = new Vector2f(0, 0);
+	private float scale;
+	private CoordinateObject subject;
 	
-	public Camera(double zoom){
-		this.zoom = zoom;
+	
+	public Camera(CoordinateObject subject, float scale){
+		this.subject = subject;
+		this.scale = scale;
 	}
 	
-	public void setFocus(Vector2f focusPoint){
-		this.focus = focusPoint;
-	}
-	public void setZoom(double zoom){
-		this.zoom = zoom;
-	}
+	public void setSubject(CoordinateObject subject){this.subject = subject;}
+	public void setScale(float scale){this.scale = scale;}
 	
-	public Vector2f realToPixelCoords(Vector2f vector){
+	public Vector2f getFocus(){return subject.getPosition();}
+	public float    getScale(){return scale;}
+	public float    getAngle(){return subject.getAngle();}
+	
+	/*public Vector2f realToPixelCoords(Vector2f vector){
 		return new Vector2f(
 				(float) ((vector.x - focus.x) * zoom + Main.screenSize.getWidth() / 2),
 				(float) ((vector.y - focus.y) * zoom + Main.screenSize.getHeight() / 2));
-	}
+	}*/
 
-	public Vector2f realToPixelCoords(float x, float y) {
+	/*public Vector2f realToPixelCoords(float x, float y) {
         return realToPixelCoords(new Vector2f(x, y));
-    }
+    }*/
 }
