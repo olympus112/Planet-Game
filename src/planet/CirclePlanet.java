@@ -1,14 +1,13 @@
 package planet;
 
-import PlanetGame.Screen;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 
 public class CirclePlanet implements Planet{
-	private Vector2f position, velocity;
+	private Vector2f position;
+	private Vector2f velocity;
 	private Circle physicsBox;
 	private float mass;
 	
@@ -16,7 +15,7 @@ public class CirclePlanet implements Planet{
 		this.position = position;
 		this.velocity = new Vector2f();
 		this.mass = mass;
-		physicsBox = new Circle(0, 0, width / 2);
+		physicsBox = new Circle(position.x, position.y , width / 2);
 	}
 	
 	@Override public Shape getPhysicsBox(){

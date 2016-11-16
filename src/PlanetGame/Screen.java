@@ -35,32 +35,38 @@ public class Screen extends BasicGameState{
     @Override public void init(GameContainer container, StateBasedGame game) throws SlickException {
         rocket = new Rocket(0, 0);
         planets = new ArrayList<>();
-        for (int i = -20; i < 20; i++) {
-            for (int j = -20; j < 20; j++) {
-                planets.add(new CirclePlanet(new Vector2f(1*i, 1*j), 50f, 1f));
+        for (int i = -2; i < 2; i++) {
+            for (int j = -2; j < 2; j++) {
+                planets.add(new CirclePlanet(new Vector2f(400*i, 400*j), 100f, 100f));
             }
         }
-
-        camera = new Camera(rocket, 0.1f);
+		camera = new Camera(rocket, 0.1f);
     }
     
     @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+    	float zoom = camera.getScale() * container.getHeight();
     	g.pushTransform();
-    	g.translate(-camera.getFocus().x + container.getWidth() / 2, -camera.getFocus().y + container.getHeight() / 2);
+    	
+    	//g.translate(-camera.getFocus().x + container.getWidth() / 2, -camera.getFocus().y + container.getHeight() / 2);
+    	g.scale(zoom, zoom);
+    	rocket.draw(g);
+    	g.translate((-camera.getFocus().x + container.getWidth() / 2)/zoom, (-camera.getFocus().y + container.getHeight() / 2)/zoom);
+    	
+    	
     	g.rotate(0, 0, -(float) (camera.getAngle() * 180 / Math.PI));
-    	g.scale(camera.getScale() * container.getHeight(), camera.getScale() * container.getHeight());
+    	
+    	g.draw(new Circle(-0.5f, -0.5f, 1f));
+    	
     	//g.scale(5, 5);
-        rocket.draw(g);
-        
-        g.draw((Shape) new Circle(5, 5, 5));
+    	
+        planets.forEach(planet -> planet.draw(g));
         g.popTransform();
     }
     
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-    	for(Planet planet : planets){
-    		planet.update(delta);
-    	}
-    	
+    	planets.forEach((planet -> planet.update(delta)));
+        rocket.update(delta);
+
         // Keyboard event
         if(keys[Input.KEY_SPACE])
             camera.setSubject(planets.get(0));
@@ -73,22 +79,21 @@ public class Screen extends BasicGameState{
         if(keys[Input.KEY_ESCAPE])
             System.exit(0);
         if(keys[Input.KEY_Q]) {
-            rocket.angle = (rocket.angle - delta / 500f) % ((float) Math.PI * 2);
-            rocket.angle += (rocket.angle < 0)? (float) Math.PI * 2 : 0;
+            rocket.setAngle((rocket.angle - delta / 500f) % ((float) Math.PI * 2));
+            rocket.setAngle(rocket.angle + ((rocket.angle < 0)? (float) Math.PI * 2 : 0));
         }
         if(keys[Input.KEY_D])
-            rocket.angle = (rocket.angle + delta / 500f) % ((float) Math.PI * 2);
+            rocket.setAngle((rocket.angle + delta / 500f) % ((float) Math.PI * 2));
         if(keys[Input.KEY_Z])
-            rocket.velocity.add(Util.fromPolar(0.5f, rocket.angle - Math.PI/2));
-	    
-        rocket.update(delta);
+            rocket.setVelocity(rocket.velocity.add(Util.fromPolar(500f, rocket.angle - Math.PI / 2)));
+		rocket.update(delta);
+		System.out.println(rocket.position);
     }
-
+    
     @Override public void keyPressed(int key, char c) {
         keys[key] = true;
-        System.out.println("key = [" + key + "], c = [" + c + "]");
     }
-
+    
     @Override public void keyReleased(int key, char c) {
         keys[key] = false;
     }

@@ -9,10 +9,11 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
-
+import util.Drawable;
 import util.PhysicsObject;
 
-class Rocket implements PhysicsObject{
+
+class Rocket implements PhysicsObject, Drawable{
 	float mass = 1;
     Vector2f position;
     Vector2f velocity;
@@ -20,6 +21,9 @@ class Rocket implements PhysicsObject{
     float angle;
     Shape rocketShape;
     
+    Image image;
+    float maximumVelocity = 100;
+
     Rocket(float x, float y) throws SlickException {
         position = new Vector2f(x, y);
         velocity = new Vector2f(0, 0);
@@ -31,15 +35,12 @@ class Rocket implements PhysicsObject{
         
         angle = (float) Math.PI;
     }
-    
-    public void draw(Graphics g) {
-    	
+
+    @Override public void draw(Graphics g) {
         // Graphical vector representation
         g.drawGradientLine(450, 450, Color.red, 450 + velocity.x * 30, 450 + velocity.y * 30, Color.green);
         g.drawGradientLine(450, 450, Color.red, 450 + (float) Math.cos(angle) * 50, 450 + (float) Math.sin(angle) * 50, Color.yellow);
-        g.drawArc(435, 435, 30, 30,
-                Math.min((float)Math.toDegrees(angle), (float)velocity.getTheta()),
-                Math.max((float)Math.toDegrees(angle), (float)velocity.getTheta()));
+        g.drawArc(435, 435, 30, 30, Math.min((float)Math.toDegrees(angle), (float)velocity.getTheta()), Math.max((float)Math.toDegrees(angle), (float)velocity.getTheta()));
         g.drawString(velocity.toString(), 5, 30);
         g.drawString("" + angle, 5, 50);
         
@@ -48,7 +49,7 @@ class Rocket implements PhysicsObject{
         
         image.draw(0, 0);*/
         
-        g.draw(rocketShape.transform(Transform.createTranslateTransform(position.x, position.y).concatenate(Transform.createRotateTransform(angle))));
+        g.draw(rocketShape);
     }
     
 	public void update(int delta){
@@ -70,7 +71,10 @@ class Rocket implements PhysicsObject{
 	
 	@Override public Vector2f getVelocity(){return velocity;}
 	
-	@Override public void setVelocity(Vector2f velocity){this.velocity = velocity;}
+	@Override public void setVelocity(Vector2f velocity) {
+        if(velocity.lengthSquared() > maximumVelocity) velocity.normalise().scale(maximumVelocity);
+        this.velocity = velocity;
+    }
 	
 	@Override public float getMass(){return mass;}
 	
@@ -82,4 +86,7 @@ class Rocket implements PhysicsObject{
 	
 	
 	
+    
+
+    
 }

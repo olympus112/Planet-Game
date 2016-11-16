@@ -15,6 +15,7 @@ public class Camera {
 	}
 	
 	public void setSubject(CoordinateObject subject){this.subject = subject;}
+	public CoordinateObject getSubject(){return subject;}
 	public void setScale(float scale){this.scale = scale;}
 	
 	public Vector2f getFocus(){return subject.getPosition();}
