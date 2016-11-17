@@ -1,9 +1,6 @@
 package PlanetGame;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
@@ -48,7 +45,9 @@ public class Screen extends BasicGameState{
     }
 
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-    	planets.forEach((planet -> planet.update(delta)));
+    	for(Planet planet : planets) {
+            planet.update(delta);
+        }
         rocket.update(delta);
 
         // Keyboard event
@@ -60,6 +59,8 @@ public class Screen extends BasicGameState{
             camera.setZoom(2);
         if(keys[Input.KEY_M])
             camera.setZoom(1);
+        if(keys[Input.KEY_O])
+            game.enterState(Main.MENU);
         if(keys[Input.KEY_ESCAPE])
             System.exit(0);
         if(keys[Input.KEY_Q]) {

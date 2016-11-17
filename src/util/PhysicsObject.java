@@ -12,5 +12,5 @@ public interface PhysicsObject {
 	float getMass();
 	void setMass(float mass);
 	void update(int delta);
-
+	boolean collide(Shape other);
 }

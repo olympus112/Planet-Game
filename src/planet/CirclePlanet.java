@@ -30,6 +30,12 @@ public class CirclePlanet implements Planet{
         })));
 	}
 	@Override public void update(int delta){}
+
+	@Override
+	public boolean collide(Shape other) {
+		return getPhysicsBox().intersects(other);
+	}
+
 	@Override public Vector2f getPosition(){return position;}
 	@Override public void setPosition(Vector2f pos){this.position = pos;}
 	@Override public Vector2f getVelocity(){return velocity;}

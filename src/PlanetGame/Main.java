@@ -3,7 +3,12 @@ package PlanetGame;
 import java.awt.Dimension;
 
 import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.EmptyTransition;
+import org.newdawn.slick.state.transition.HorizontalSplitTransition;
+import org.newdawn.slick.state.transition.Transition;
+
 import java.awt.*;
 
 
