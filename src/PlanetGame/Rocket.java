@@ -48,10 +48,6 @@ class Rocket implements PhysicsObject, Drawable{
         position.add(new Vector2f(velocity.x / 1f, velocity.y / 1f));
     }
 
-    @Override public boolean collide(Shape other) {
-        return getPhysicsBox().intersects(other);
-    }
-
     @Override public Shape getPhysicsBox() {
         return new Rectangle(position.x, position.y, image.getWidth(), image.getHeight());
     }
