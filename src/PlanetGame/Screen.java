@@ -1,10 +1,12 @@
 package PlanetGame;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
@@ -40,33 +42,38 @@ public class Screen extends BasicGameState{
                 planets.add(new CirclePlanet(new Vector2f(400*i, 400*j), 100f, 100f));
             }
         }
-		camera = new Camera(rocket, 0.1f);
+		camera = new Camera(rocket, 2f);
     }
     
     @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-    	float zoom = camera.getScale() * container.getHeight();
-    	g.pushTransform();
+    	float zoom = camera.getScale();
     	
-    	//g.translate(-camera.getFocus().x + container.getWidth() / 2, -camera.getFocus().y + container.getHeight() / 2);
+    	g.translate(container.getWidth() / 2, container.getHeight() / 2);
     	g.scale(zoom, zoom);
+    	
     	rocket.draw(g);
-    	g.translate((-camera.getFocus().x + container.getWidth() / 2)/zoom, (-camera.getFocus().y + container.getHeight() / 2)/zoom);
     	
     	
-    	g.rotate(0, 0, -(float) (camera.getAngle() * 180 / Math.PI));
     	
-    	g.draw(new Circle(-0.5f, -0.5f, 1f));
+    	g.rotate(0, 0, (float) -(camera.getAngle() * 180 / Math.PI));
     	
-    	//g.scale(5, 5);
+    	g.translate(-rocket.getPosition().x, -rocket.getPosition().y);
     	
-        planets.forEach(planet -> planet.draw(g));
-        g.popTransform();
+    	Polygon shape = new Polygon(new float[]{0, 0, 50, 0, 50, 50, 0, 50});
+    	g.setColor(Color.gray);
+    	g.fill(shape);
+    	g.translate(100, 0);
+    	g.setColor(Color.green);
+    	g.draw(shape);
+    	g.scale(2, 5);
+    	g.setColor(Color.red);
+    	g.draw(shape);
     }
     
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
     	planets.forEach((planet -> planet.update(delta)));
         rocket.update(delta);
-
+        
         // Keyboard event
         if(keys[Input.KEY_SPACE])
             camera.setSubject(planets.get(0));

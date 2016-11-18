@@ -29,7 +29,7 @@ class Rocket implements PhysicsObject, Drawable{
         velocity = new Vector2f(0, 0);
         //image = new Image("res/rocket.png");
         
-        rocketShape = new Polygon(new float[]{0, 1, -0.4f, 0, 0.4f, 0});
+        rocketShape = new Polygon(new float[]{0, 100, -40f, 0, 40f, 0});
         rocketShape = rocketShape.transform(Transform.createTranslateTransform(-rocketShape.getCenterX(), -rocketShape.getCenterY()));
         rocketShape = rocketShape.transform(Transform.createRotateTransform((float) Math.PI));
         
