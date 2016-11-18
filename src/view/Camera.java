@@ -2,20 +2,20 @@ package view;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import util.CoordinateObject;
+import util.Locatable;
 
 public class Camera {
 	private float scale;
-	private CoordinateObject subject;
+	private Locatable subject;
 	
 	
-	public Camera(CoordinateObject subject, float scale){
+	public Camera(Locatable subject, float scale){
 		this.subject = subject;
 		this.scale = scale;
 	}
 	
-	public void setSubject(CoordinateObject subject){this.subject = subject;}
-	public CoordinateObject getSubject(){return subject;}
+	public void setSubject(Locatable subject){this.subject = subject;}
+	public Locatable getSubject(){return subject;}
 	public void setScale(float scale){this.scale = scale;}
 	
 	public Vector2f getFocus(){return subject.getPosition();}
