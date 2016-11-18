@@ -24,6 +24,7 @@ class Rocket implements PhysicsObject, Drawable{
     Rocket(float x, float y) throws SlickException {
         position = new Vector2f(x, y);
         velocity = new Vector2f(0, 0);
+        //image = new Image("res/spaceship.png");
         image = new Image("res/rocket.png");
     }
 
@@ -37,6 +38,7 @@ class Rocket implements PhysicsObject, Drawable{
         g.drawString("" + velocity.lengthSquared(), 5, 70);
 
         // Draw the rocket at (x, y)
+        //image.setRotation(45);
         g.drawImage(image, Screen.getCamera().realToPixelCoords(position).x, Screen.getCamera().realToPixelCoords(position).y);
         g.draw(getPhysicsBox());
     }

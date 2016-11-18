@@ -1,5 +1,8 @@
 package PlanetGame;
 
+import Particles.Emitter;
+import Particles.FireEmitter;
+import Particles.Particle;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -14,6 +17,7 @@ import planet.Planet;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import util.Util;
@@ -25,6 +29,7 @@ public class Screen extends BasicGameState{
     private static Camera camera;
     private Rocket rocket;
     static boolean[] keys = new boolean[256];
+
 
     @Override public int getID() {
         return Main.SCREEN;
