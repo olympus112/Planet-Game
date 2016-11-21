@@ -9,7 +9,8 @@ import Particle.Trail;
 
 public class Menu extends BasicGameState{
 
-	ParticleSystem s;
+	ParticleSystem particleSystem;
+	Trail trailParticle;
 	public static float x = 300, y = 300;
 
 	@Override public int getID() {
@@ -17,23 +18,13 @@ public class Menu extends BasicGameState{
 	}
 
 	@Override public void init(GameContainer container, StateBasedGame game) throws SlickException {
-		Image i = new Image(40, 40);
-        Graphics g = i.getGraphics();
-        g.setColor(Color.white);
-        g.fill(new Circle(20, 20, 20));
-        g.flush();
-
-		s = new ParticleSystem(i);
-        s.setBlendingMode(ParticleSystem.BLEND_ADDITIVE);
-		s.setPosition(200, 200);
-		s.setVisible(true);
-		//s.addEmitter(new Emitter());
-		s.addEmitter(new Trail());
+		trailParticle = new Trail();
+		particleSystem = new ParticleSystem(trailParticle.getImage());
+		particleSystem.addEmitter(new Trail());
 	}
 
 	@Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		s.render();
-		g.draw(new Circle(x, y, 20));
+		particleSystem.render();
 	}
 
 	@Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
@@ -43,6 +34,6 @@ public class Menu extends BasicGameState{
 		if(container.getInput().isKeyDown(Input.KEY_RIGHT)) x += 0.5f*delta;
 		if(container.getInput().isKeyDown(Input.KEY_UP)) y -= 0.5f*delta;
 		if(container.getInput().isKeyDown(Input.KEY_DOWN)) y += 0.5f*delta;
-		s.update(delta);
+		particleSystem.update(delta);
 	}
 }

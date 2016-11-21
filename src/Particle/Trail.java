@@ -18,21 +18,26 @@ public class Trail implements ParticleEmitter{
     private float startLife = 5000f;
     private int timer;
     private float size = 40.0F;
+    Image particleImage;
 
-    public Trail() {
-
+    public Trail() throws SlickException {
+        particleImage = new Image(40, 40);
+        Graphics g = particleImage.getGraphics();
+        g.setColor(new Color(103, 18, 11, 200));
+        g.fill(new Circle(20, 20, 20));
+        g.flush();
     }
 
     public void update(ParticleSystem system, int delta) {
         this.timer -= delta;
         if(this.timer <= 0) {
             this.timer = this.interval;
+            //TODO add particle only if rocket is moving
             Particle newParticle = system.getNewParticle(this, startLife);
             newParticle.setColor(1.0F, 1.0F, 1.0F, 0.5F);
             newParticle.setPosition(Menu.x, Menu.y);
             newParticle.setSize(size);
         }
-
     }
 
     public void updateParticle(Particle particle, int delta) {
@@ -57,7 +62,7 @@ public class Trail implements ParticleEmitter{
     }
 
     public Image getImage() {
-        return null;
+        return particleImage;
     }
 
     public boolean usePoints(ParticleSystem system) {
