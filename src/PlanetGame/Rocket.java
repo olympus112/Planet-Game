@@ -22,7 +22,7 @@ class Rocket implements PhysicsObject, Drawable{
     public static float angle;
 
     Shape rocketShape;
-    
+
     Image image;
     float maximumVelocity = 100;
 
@@ -31,12 +31,12 @@ class Rocket implements PhysicsObject, Drawable{
         velocity = new Vector2f(0, 0);
 
         //image = new Image("res/rocket.png");
-        
+
         rocketShape = new Polygon(new float[]{0, 100, -40f, 0, 40f, 0});
 
         rocketShape = rocketShape.transform(Transform.createTranslateTransform(-rocketShape.getCenterX(), -rocketShape.getCenterY()));
         rocketShape = rocketShape.transform(Transform.createRotateTransform((float) Math.PI));
-        
+
         angle = (float) Math.PI;
 
     }
@@ -51,7 +51,7 @@ class Rocket implements PhysicsObject, Drawable{
 
         // Rocket image rotation + draw
         /*image.setRotation((float) Math.toDegrees(angle) + 90f);
-        
+
         image.draw(0, 0);*/
 
         

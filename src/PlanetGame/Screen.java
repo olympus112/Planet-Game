@@ -59,7 +59,7 @@ public class Screen extends BasicGameState{
 
 		camera = new Camera(rocket, 0.1f);
     }
-    
+
     @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         float zoom = camera.getScale();
 
@@ -96,9 +96,9 @@ public class Screen extends BasicGameState{
 
 		camera = new Camera(rocket, 2f);
     }
-    
 
-    
+
+
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         Display.sync(60);
     	planets.forEach((planet -> planet.update(delta)));

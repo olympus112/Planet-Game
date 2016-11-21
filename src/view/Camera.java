@@ -8,14 +8,14 @@ import util.Locatable;
 public class Camera {
 	private float scale;
 	private Locatable subject;
-	
-	
+
+
 	public Camera(Locatable subject, float scale){
 
 		this.subject = subject;
 		this.scale = scale;
 	}
-	
+
 
 	public void setSubject(Locatable subject){this.subject = subject;}
 	public Locatable getSubject(){return subject;}
