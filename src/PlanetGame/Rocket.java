@@ -6,6 +6,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.*;
+import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
+import org.newdawn.slick.geom.Vector2f;
 import util.Drawable;
 import util.PhysicsObject;
 
@@ -16,6 +20,7 @@ class Rocket implements PhysicsObject, Drawable{
     Vector2f velocity;
     //Image image;
     public static float angle;
+
     Shape rocketShape;
     
     Image image;
@@ -25,9 +30,10 @@ class Rocket implements PhysicsObject, Drawable{
         position = new Vector2f(x, y);
         velocity = new Vector2f(0, 0);
 
-        image = new Image("res/rocket.png");
+        //image = new Image("res/rocket.png");
         
-        rocketShape = new Polygon(new float[]{0, 1, -0.4f, 0, 0.4f, 0});
+        rocketShape = new Polygon(new float[]{0, 100, -40f, 0, 40f, 0});
+
         rocketShape = rocketShape.transform(Transform.createTranslateTransform(-rocketShape.getCenterX(), -rocketShape.getCenterY()));
         rocketShape = rocketShape.transform(Transform.createRotateTransform((float) Math.PI));
         
@@ -44,11 +50,10 @@ class Rocket implements PhysicsObject, Drawable{
         g.drawString("" + angle, 5, 50);
 
         // Rocket image rotation + draw
-       // image.setRotation((float) Math.toDegrees(angle) + 90f);
-
-        //g.draw(rect);
+        /*image.setRotation((float) Math.toDegrees(angle) + 90f);
         
-        //image.draw(0, 0);
+        image.draw(0, 0);*/
+
         
         g.draw(rocketShape);
     }
