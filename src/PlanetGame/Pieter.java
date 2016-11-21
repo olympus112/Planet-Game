@@ -86,7 +86,7 @@ class Pieter extends BasicGameState {
         }
 
         if(container.getInput().isKeyDown(Input.KEY_SPACE)){
-            particles.addAll(emitter.emit((int)(Display.getWidth()/2)-Math.cos(Math.toRadians(angle))*40, (int)(Display.getHeight()/2)+Math.sin(Math.toRadians(-angle))*40, -angle, new Color(250,40,40), 15)); //emit(x, y, angle)
+            particles.addAll(emitter.emit((int)(Display.getWidth()/2)-Math.cos(Math.toRadians(angle+((Math.random()-0.5)*30)))*40, (int)(Display.getHeight()/2)+Math.sin(Math.toRadians(-angle-((Math.random()-0.5)*30)))*40, -angle, new Color(250,40,40), 15)); //emit(x, y, angle)
         }
 
         if(container.getInput().isKeyDown(Input.KEY_LEFT)){
