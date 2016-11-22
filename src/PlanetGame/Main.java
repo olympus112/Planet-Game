@@ -12,12 +12,13 @@ public class Main extends StateBasedGame {
     private static String title;
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     static int SCREEN;
-    static int MENU;
+    static int MENU, PIETER;
 
     static {
         title = "Planets";
         SCREEN = 1;
         MENU = 0;
+        PIETER = 99;
     }
 
     public static void main(String[] args) throws SlickException {
@@ -32,6 +33,8 @@ public class Main extends StateBasedGame {
     @Override public void initStatesList(GameContainer container) throws SlickException {
         addState(new Menu());
         addState(new Screen());
+        addState(new Pieter());
+        //enterState(PIETER);
         enterState(MENU);
     }
 }

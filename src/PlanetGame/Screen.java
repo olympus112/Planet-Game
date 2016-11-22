@@ -1,5 +1,12 @@
 package PlanetGame;
 
+
+import Particles.Emitter;
+import Particles.FireEmitter;
+import Particles.Particle;
+import org.lwjgl.opengl.Display;
+import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -15,9 +22,11 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import planet.CirclePlanet;
 import planet.Planet;
+import PlanetGame.Rocket;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import util.Util;
@@ -29,6 +38,11 @@ public class Screen extends BasicGameState{
     private Camera camera;
     private Rocket rocket;
     static boolean[] keys = new boolean[256];
+    // Particles
+    private Emitter emitter = new FireEmitter();
+    private List<Particle> particles = new ArrayList<>();
+
+
 
     @Override public int getID() {
         return Main.SCREEN;
@@ -42,38 +56,67 @@ public class Screen extends BasicGameState{
                 planets.add(new CirclePlanet(new Vector2f(400*i, 400*j), 100f, 100f));
             }
         }
+
+		camera = new Camera(rocket, 0.1f);
+    }
+
+    @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+        float zoom = camera.getScale();
+
+        g.translate(container.getWidth() / 2, container.getHeight() / 2);
+        g.scale(zoom, zoom);
+
+        rocket.draw(g);
+
+
+
+        g.rotate(0, 0, (float) -(camera.getAngle() * 180 / Math.PI));
+
+        g.translate(-rocket.getPosition().x, -rocket.getPosition().y);
+
+        Polygon shape = new Polygon(new float[]{0, 0, 50, 0, 50, 50, 0, 50});
+        g.setColor(Color.gray);
+        g.fill(shape);
+        g.translate(100, 0);
+        g.setColor(Color.green);
+        g.draw(shape);
+        g.scale(2, 5);
+        g.setColor(Color.red);
+        g.draw(shape);
+
+        //draw particles
+        for(Iterator<Particle> it = particles.iterator(); it.hasNext();){
+            Particle p = it.next();
+            float alpha = (float)p.GetLife();
+            alpha = alpha*255;
+            g.setColor(new Color(240,45,54,(int)alpha));
+            g.fillOval(p.GetX(),p.GetY(),p.GetRadius(),p.GetRadius());
+
+        }
+
 		camera = new Camera(rocket, 2f);
     }
-    
-    @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-    	float zoom = camera.getScale();
-    	
-    	g.translate(container.getWidth() / 2, container.getHeight() / 2);
-    	g.scale(zoom, zoom);
-    	
-    	rocket.draw(g);
-    	
-    	
-    	
-    	g.rotate(0, 0, (float) -(camera.getAngle() * 180 / Math.PI));
-    	
-    	g.translate(-rocket.getPosition().x, -rocket.getPosition().y);
-    	
-    	Polygon shape = new Polygon(new float[]{0, 0, 50, 0, 50, 50, 0, 50});
-    	g.setColor(Color.gray);
-    	g.fill(shape);
-    	g.translate(100, 0);
-    	g.setColor(Color.green);
-    	g.draw(shape);
-    	g.scale(2, 5);
-    	g.setColor(Color.red);
-    	g.draw(shape);
-    }
-    
+
+
+
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+        Display.sync(60);
     	planets.forEach((planet -> planet.update(delta)));
         rocket.update(delta);
-        
+
+
+        for(Iterator<Particle> it = particles.iterator(); it.hasNext();){
+            Particle p = it.next();
+            p.update();
+            if(!p.isAlive()){
+                it.remove();
+                continue;
+            }
+        }
+        if(container.getInput().isKeyDown(Input.KEY_Z)){
+            //particles.addAll(emitter.emit(900, 450, Rocket.angle)); //emit(x, y, angle)
+        }
+
         // Keyboard event
         if(keys[Input.KEY_SPACE])
             camera.setSubject(planets.get(0));
