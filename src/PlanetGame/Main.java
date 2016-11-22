@@ -34,7 +34,7 @@ public class Main extends StateBasedGame {
         addState(new Menu());
         addState(new Screen());
         addState(new Pieter());
-        //enterState(PIETER);
-        enterState(MENU);
+        enterState(PIETER);
+        //enterState(MENU);
     }
 }

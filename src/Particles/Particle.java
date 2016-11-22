@@ -65,4 +65,11 @@ public class Particle {
 
     public Color getColor(){ return color; }
 
+    public Graphics draw(Graphics g){
+        float alpha = (float)life;
+        alpha = alpha*255;
+        g.setColor(new Color(color.getRed(),color.getGreen(),color.getBlue(),(int)alpha));
+        g.fillOval((float)x, (float)y, (float)radius, (float)radius);
+        return g;
+    }
 }

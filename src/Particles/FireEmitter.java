@@ -21,7 +21,7 @@ public class FireEmitter extends Emitter {
             int d = (int) (new Date().getTime());
             int life_time =2; //in seconds
             int dead_milis = d+(life_time*1000);
-            Particle p = new Particle(x, y, angle+((Math.random()-0.5)*10), velocity, 5, (double)life_time, dead_milis, color);
+            Particle p = new Particle(x, y, angle+((Math.random()-0.5)*20), velocity, 5, (double)life_time, dead_milis, color);
             particles.add(p);
         }
 
