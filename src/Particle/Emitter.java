@@ -3,6 +3,7 @@ package Particle;
 import PlanetGame.Menu;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.particles.Particle;
 import org.newdawn.slick.particles.ParticleEmitter;
 import org.newdawn.slick.particles.ParticleSystem;
@@ -15,6 +16,7 @@ public class Emitter implements ParticleEmitter{
     private float startLife = 1000f;
     private int timer;
     private float size = 40.0F;
+    float angle = (float)Math.PI / 4;
     Image i;
 
     public Emitter() {
@@ -46,9 +48,10 @@ public class Emitter implements ParticleEmitter{
             newParticle.setSize(this.size);
             float vx = (float)(-0.02 + Math.random() * 0.04);
             float vy = (float)(-Math.random() * 0.15);
-            newParticle.setVelocity(vx, vy, 1.1f);;
+            Vector2f v = new Vector2f(vx, vy);
+            v.setTheta(Menu.angle);
+            newParticle.setVelocity(v.x, v.y, 1.1f);
         }
-
     }
 
     public void updateParticle(Particle particle, int delta) {

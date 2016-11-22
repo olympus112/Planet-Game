@@ -23,7 +23,7 @@ public class Trail implements ParticleEmitter{
     public Trail() throws SlickException {
         particleImage = new Image(40, 40);
         Graphics g = particleImage.getGraphics();
-        g.setColor(new Color(103, 18, 11, 200));
+        g.setColor(new Color(255, 194, 213));
         g.fill(new Circle(20, 20, 20));
         g.flush();
     }
@@ -42,8 +42,8 @@ public class Trail implements ParticleEmitter{
 
     public void updateParticle(Particle particle, int delta) {
         if (particle.getSize() == 0.0f || particle.getColor().getAlpha() == 0.0f) particle.kill();
-        particle.adjustSize(-0.0005f * delta * size);
-        particle.adjustColor(0.0f, 0.0f, 0.0f, -0.0001f * delta);
+        particle.adjustSize(-0.0001f * delta * size);
+        particle.adjustColor(0.0f, 0.0f, 0.0f, -0.00006f * delta);
     }
 
     public boolean isEnabled() {
