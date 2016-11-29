@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Pieter on 16/11/2016.
- */
 public class FireEmitter extends Emitter {
 
     @Override

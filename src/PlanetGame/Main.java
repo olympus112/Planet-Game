@@ -2,6 +2,7 @@ package PlanetGame;
 
 import java.awt.Dimension;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 import java.awt.*;
@@ -23,6 +24,7 @@ public class Main extends StateBasedGame {
 
     public static void main(String[] args) throws SlickException {
         AppGameContainer gameContainer = new AppGameContainer(new Main(title), screenSize.width, screenSize.height, false);
+
         gameContainer.start();
     }
     
@@ -34,7 +36,7 @@ public class Main extends StateBasedGame {
         addState(new Menu());
         addState(new Screen());
         addState(new Pieter());
-        enterState(PIETER);
+        enterState(SCREEN);
         //enterState(MENU);
     }
 }
