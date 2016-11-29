@@ -20,7 +20,7 @@ class Rocket implements PhysicsObject, Drawable{
     Vector2f velocity;
     Image image;
     public static float angle;
-    float maximumVelocity = 100;
+    float maximumVelocity = 1000;
 
     Rocket(float x, float y) throws SlickException {
         position = new Vector2f(x, y);
@@ -29,7 +29,7 @@ class Rocket implements PhysicsObject, Drawable{
     }
 
     @Override public void draw(Graphics g) {
-        g.drawGradientLine(450, 450, Color.red, 450 + velocity.x * 30, 450 + velocity.y * 30, Color.green);
+        g.drawGradientLine(450, 450, Color.red, 450 + velocity.x, 450 + velocity.y, Color.green);
         g.drawGradientLine(450, 450, Color.red, 450 + (float) Math.cos(angle) * 50, 450 + (float) Math.sin(angle) * 50, Color.yellow);
         g.drawArc(435, 435, 30, 30, Math.min((float)Math.toDegrees(angle), (float)velocity.getTheta()), Math.max((float)Math.toDegrees(angle), (float)velocity.getTheta()));
         g.drawString(velocity.toString(), 5, 30);
@@ -41,7 +41,7 @@ class Rocket implements PhysicsObject, Drawable{
     }
     
 	public void update(int delta){
-		position.add(velocity.scale(delta / 1000f));
+		position.add(new Vector2f(velocity).scale(delta / 1000f));
 	}
 	
 	@Override
@@ -56,7 +56,8 @@ class Rocket implements PhysicsObject, Drawable{
 	@Override public Vector2f getVelocity(){return velocity;}
 	
 	@Override public void setVelocity(Vector2f velocity) {
-        if(velocity.lengthSquared() > maximumVelocity) velocity.normalise().scale(maximumVelocity);
+        if(velocity.lengthSquared() > maximumVelocity * maximumVelocity)
+        	velocity.normalise().scale(maximumVelocity);
         this.velocity = velocity;
     }
 	

@@ -4,7 +4,7 @@ package PlanetGame;
 import Particles.Emitter;
 import Particles.FireEmitter;
 import Particles.Particle;
-import Planets.Planets;
+//import Planets.Planets;
 import Stars.Stars;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.*;
@@ -35,11 +35,11 @@ import java.util.Vector;
 import util.Util;
 import view.Camera;
 
-import static Planets.Planets.planet_texture;
+//import static Planets.Planets.planet_texture;
 
 public class Screen extends BasicGameState{
 
-    private List<Planets> planets;
+    //private List<Planets> planets;
     public static List<Stars> stars = new ArrayList<>();
     private Camera camera;
     private Rocket rocket;
@@ -59,7 +59,7 @@ public class Screen extends BasicGameState{
 
     @Override public void init(GameContainer container, StateBasedGame game) throws SlickException {
         rocket = new Rocket(0, 0);
-		camera = new Camera(rocket, 0.1f);
+		camera = new Camera(rocket, .5f);
 
         //for (int i = 0; i < texture_nr; i++) {
         //    planet_texture.add(FishEye.FishEye_Image(Planets.GeneratePlanetTexture()));
@@ -67,7 +67,13 @@ public class Screen extends BasicGameState{
     }
 
     @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        //for(Stars star : Stars.stars) {
+    	float zoom = camera.getScale();
+    	g.translate(container.getWidth() / 2, container.getHeight() / 2);
+    	g.scale(zoom, zoom);
+    	g.translate(-rocket.getPosition().x, -rocket.getPosition().y);
+    	rocket.draw(g);
+    	
+    	//for(Stars star : Stars.stars) {
         //    star.draw_stars(g, coord_x, coord_y);
         //}
         //
@@ -79,9 +85,8 @@ public class Screen extends BasicGameState{
             particle.draw(g);
         }
 
-        rocket.draw(g);
-
-		camera = new Camera(rocket, 2f);
+        
+        
     }
 
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
@@ -90,7 +95,6 @@ public class Screen extends BasicGameState{
             p.update();
             if(!p.isAlive()) it.remove();
         }
-               Display.sync(60);
 
         // Keyboard event
         if(keys[Input.KEY_R])
@@ -111,7 +115,7 @@ public class Screen extends BasicGameState{
             particles.addAll(emitter.emit((Display.getWidth() / 2) - Math.cos(Math.toRadians(angle + 45)) * 40, (Display.getHeight() / 2) + Math.sin(Math.toRadians(-angle - 45)) * 40, -angle, new Color(200, 200, 200), 2));
         }
         if(keys[Input.KEY_Z]) {
-            rocket.setVelocity(rocket.velocity.add(Util.fromPolar(500f, rocket.angle)));
+            rocket.setVelocity(rocket.velocity.add(Util.fromPolar(0.05f * delta, rocket.angle)));
             particles.addAll(emitter.emit((Display.getWidth() / 2) - Math.cos(Math.toRadians(angle + ((Math.random() - 0.5) * 30))) * 40, (Display.getHeight() / 2) + Math.sin(Math.toRadians(-angle - ((Math.random() - 0.5) * 30))) * 40, -angle, new Color(250, 40, 40), 15)); //emit(x, y, angle);
         }
 
