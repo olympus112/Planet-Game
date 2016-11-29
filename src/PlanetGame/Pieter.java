@@ -75,8 +75,8 @@ public class Pieter extends BasicGameState {
 
     //get screen segment
     int segment_stars_x, segment_stars_y, segment_planets_x, segment_planets_y;
-    public static Vector<Data.Coords> discoverd_segments;
-    public static Vector<Data.Coords> discoverd_planets;
+   //public static Vector<Data.Coords> discoverd_segments;
+   //public static Vector<Data.Coords> discoverd_planets;
 
     //firt run
     public boolean firstrun = true;
@@ -107,8 +107,8 @@ public class Pieter extends BasicGameState {
 
         planet_texture = new ArrayList<>();
 
-        discoverd_segments = new Vector<>();
-        discoverd_planets = new Vector<>();
+        //discoverd_segments = new Vector<>();
+        //discoverd_planets = new Vector<>();
 
         angle = 0;
 
@@ -228,10 +228,10 @@ public class Pieter extends BasicGameState {
             segment_planets_y = (int) (Math.floor((coord_y / PLANET_SEGMENT_SCALE) / (Display.getHeight() / 2)));
 
             //add stars to new segments
-            Stars.AddToSegment(segment_stars_x, segment_stars_y, 100);
-
-            //add planets to new segments
-            Planets.AddToSegment(segment_planets_x, segment_planets_y, 1);
+            //Stars.AddToSegment(segment_stars_x, segment_stars_y, 100);
+            //
+            ////add planets to new segments
+            //Planets.AddToSegment(segment_planets_x, segment_planets_y, 1);
 
 
             //update coordinate rocket

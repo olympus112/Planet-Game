@@ -1,6 +1,5 @@
 package Stars;
 
-import PlanetGame.Data;
 import PlanetGame.Screen;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
@@ -8,17 +7,13 @@ import org.newdawn.slick.Graphics;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-/**
- * Created by Screen on 22/11/2016.
- */
 public class Stars {
     private double x;
     private double y;
     private double radius;
     private Color color;
-    public static Vector<Data.Coords> discoverd_segments;
+    //public static Vector<Data.Coords> discoverd_segments;
     public static List<Stars> stars = new ArrayList<>();
 
 
@@ -54,17 +49,17 @@ public class Stars {
         return radius;
     }
 
-    public static boolean SegmentFount(Vector<Data.Coords> discoverd_segments, int segment_x, int segment_y){
-        boolean found = false;
-        for (int i = 0; i < discoverd_segments.size(); i++) {
-            if ((int)discoverd_segments.get(i).getX() == segment_x && (int)discoverd_segments.get(i).getY() == segment_y){
-                found = true;
-                break;
-            }
-        }
-
-        return found;
-    }
+    //public static boolean SegmentFount(Vector<Data.Coords> discoverd_segments, int segment_x, int segment_y){
+    //    boolean found = false;
+    //    for (int i = 0; i < discoverd_segments.size(); i++) {
+    //        if ((int)discoverd_segments.get(i).getX() == segment_x && (int)discoverd_segments.get(i).getY() == segment_y){
+    //            found = true;
+    //            break;
+    //        }
+    //    }
+    //
+    //    return found;
+    //}
 
     public static List<Stars> GenerateStars(int seg_x, int seg_y, int count){
         List<Stars> stars = new ArrayList<Stars>();
@@ -85,68 +80,68 @@ public class Stars {
         return stars;
     }
 
-    public static void AddToSegment(int segment_x, int segment_y, int count){
-        if (discoverd_segments.size() > 0){
-            //center
-            if (SegmentFount(discoverd_segments, segment_x, segment_y) == false){
-                stars.addAll(Stars.GenerateStars(segment_x, segment_y, count));
-                Data.Coords coords = new Data.Coords(segment_x, segment_y);
-                discoverd_segments.addElement(coords);
-            }
-            //left
-            if (SegmentFount(discoverd_segments, segment_x-1, segment_y) == false){
-                stars.addAll(Stars.GenerateStars(segment_x-1, segment_y, count));
-                Data.Coords coords = new Data.Coords(segment_x-1, segment_y);
-                discoverd_segments.addElement(coords);
-            }
-            //left top
-            if (SegmentFount(discoverd_segments, segment_x-1, segment_y+1) == false){
-                stars.addAll(Stars.GenerateStars(segment_x-1, segment_y+1, count));
-                Data.Coords coords = new Data.Coords(segment_x-1, segment_y+1);
-                discoverd_segments.addElement(coords);
-            }
-            //top
-            if (SegmentFount(discoverd_segments, segment_x, segment_y+1) == false){
-                stars.addAll(Stars.GenerateStars(segment_x, segment_y+1, count));
-                Data.Coords coords = new Data.Coords(segment_x, segment_y+1);
-                discoverd_segments.addElement(coords);
-            }
-            //right top
-            if (SegmentFount(discoverd_segments, segment_x+1, segment_y+1) == false){
-                stars.addAll(Stars.GenerateStars(segment_x+1, segment_y+1, count));
-                Data.Coords coords = new Data.Coords(segment_x+1, segment_y+1);
-                discoverd_segments.addElement(coords);
-            }
-            //right
-            if (SegmentFount(discoverd_segments, segment_x+1, segment_y) == false){
-                stars.addAll(Stars.GenerateStars(segment_x+1, segment_y, count));
-                Data.Coords coords = new Data.Coords(segment_x+1, segment_y);
-                discoverd_segments.addElement(coords);
-            }
-            //right bottom
-            if (SegmentFount(discoverd_segments, segment_x+1, segment_y-1) == false){
-                stars.addAll(Stars.GenerateStars(segment_x+1, segment_y-1, count));
-                Data.Coords coords = new Data.Coords(segment_x+1, segment_y-1);
-                discoverd_segments.addElement(coords);
-            }
-            //bottom
-            if (SegmentFount(discoverd_segments, segment_x, segment_y-1) == false){
-                stars.addAll(Stars.GenerateStars(segment_x, segment_y-1, count));
-                Data.Coords coords = new Data.Coords(segment_x, segment_y-1);
-                discoverd_segments.addElement(coords);
-            }
-            //left bottom
-            if (SegmentFount(discoverd_segments, segment_x-1, segment_y-1) == false){
-                stars.addAll(Stars.GenerateStars(segment_x-1, segment_y-1, count));
-                Data.Coords coords = new Data.Coords(segment_x-1, segment_y-1);
-                discoverd_segments.addElement(coords);
-            }
-        }else{
-            stars.addAll(Stars.GenerateStars(0, 0, count));
-            Data.Coords coords = new Data.Coords(0, 0);
-            discoverd_segments.addElement(coords);
-        }
-
-    }
+    //public static void AddToSegment(int segment_x, int segment_y, int count){
+    //    if (discoverd_segments.size() > 0){
+    //        //center
+    //        if (SegmentFount(discoverd_segments, segment_x, segment_y) == false){
+    //            stars.addAll(Stars.GenerateStars(segment_x, segment_y, count));
+    //            Data.Coords coords = new Data.Coords(segment_x, segment_y);
+    //            discoverd_segments.addElement(coords);
+    //        }
+    //        //left
+    //        if (SegmentFount(discoverd_segments, segment_x-1, segment_y) == false){
+    //            stars.addAll(Stars.GenerateStars(segment_x-1, segment_y, count));
+    //            Data.Coords coords = new Data.Coords(segment_x-1, segment_y);
+    //            discoverd_segments.addElement(coords);
+    //        }
+    //        //left top
+    //        if (SegmentFount(discoverd_segments, segment_x-1, segment_y+1) == false){
+    //            stars.addAll(Stars.GenerateStars(segment_x-1, segment_y+1, count));
+    //            Data.Coords coords = new Data.Coords(segment_x-1, segment_y+1);
+    //            discoverd_segments.addElement(coords);
+    //        }
+    //        //top
+    //        if (SegmentFount(discoverd_segments, segment_x, segment_y+1) == false){
+    //            stars.addAll(Stars.GenerateStars(segment_x, segment_y+1, count));
+    //            Data.Coords coords = new Data.Coords(segment_x, segment_y+1);
+    //            discoverd_segments.addElement(coords);
+    //        }
+    //        //right top
+    //        if (SegmentFount(discoverd_segments, segment_x+1, segment_y+1) == false){
+    //            stars.addAll(Stars.GenerateStars(segment_x+1, segment_y+1, count));
+    //            Data.Coords coords = new Data.Coords(segment_x+1, segment_y+1);
+    //            discoverd_segments.addElement(coords);
+    //        }
+    //        //right
+    //        if (SegmentFount(discoverd_segments, segment_x+1, segment_y) == false){
+    //            stars.addAll(Stars.GenerateStars(segment_x+1, segment_y, count));
+    //            Data.Coords coords = new Data.Coords(segment_x+1, segment_y);
+    //            discoverd_segments.addElement(coords);
+    //        }
+    //        //right bottom
+    //        if (SegmentFount(discoverd_segments, segment_x+1, segment_y-1) == false){
+    //            stars.addAll(Stars.GenerateStars(segment_x+1, segment_y-1, count));
+    //            Data.Coords coords = new Data.Coords(segment_x+1, segment_y-1);
+    //            discoverd_segments.addElement(coords);
+    //        }
+    //        //bottom
+    //        if (SegmentFount(discoverd_segments, segment_x, segment_y-1) == false){
+    //            stars.addAll(Stars.GenerateStars(segment_x, segment_y-1, count));
+    //            Data.Coords coords = new Data.Coords(segment_x, segment_y-1);
+    //            discoverd_segments.addElement(coords);
+    //        }
+    //        //left bottom
+    //        if (SegmentFount(discoverd_segments, segment_x-1, segment_y-1) == false){
+    //            stars.addAll(Stars.GenerateStars(segment_x-1, segment_y-1, count));
+    //            Data.Coords coords = new Data.Coords(segment_x-1, segment_y-1);
+    //            discoverd_segments.addElement(coords);
+    //        }
+    //    }else{
+    //        stars.addAll(Stars.GenerateStars(0, 0, count));
+    //        Data.Coords coords = new Data.Coords(0, 0);
+    //        discoverd_segments.addElement(coords);
+    //    }
+    //
+    //}
 
 }

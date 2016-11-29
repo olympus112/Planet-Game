@@ -1,6 +1,5 @@
 package Planets;
 
-import PlanetGame.Data;
 import PlanetGame.Pieter;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
@@ -14,11 +13,7 @@ import org.newdawn.slick.geom.Circle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-/**
- * Created by Pieter on 22/11/2016.
- */
 public class Planets{
     private double x;
     private double y;
@@ -232,93 +227,93 @@ public class Planets{
         return planets;
     }
 
-    public static boolean SegmentFount(Vector<Data.Coords> discoverd_planets, int segment_x, int segment_y){
-        boolean found = false;
-        for (int i = 0; i < discoverd_planets.size(); i++) {
-            if ((int)discoverd_planets.get(i).getX() == segment_x && (int)discoverd_planets.get(i).getY() == segment_y){
-                found = true;
-                break;
-            }
-        }
+    //public static boolean SegmentFount(Vector<Data.Coords> discoverd_planets, int segment_x, int segment_y){
+    //    boolean found = false;
+    //    for (int i = 0; i < discoverd_planets.size(); i++) {
+    //        if ((int)discoverd_planets.get(i).getX() == segment_x && (int)discoverd_planets.get(i).getY() == segment_y){
+    //            found = true;
+    //            break;
+    //        }
+    //    }
+    //
+    //    return found;
+    //}
 
-        return found;
-    }
-
-    public static void AddToSegment(int segment_x, int segment_y, int count){
-            if (Pieter.discoverd_planets.size() > 0) {
-                //center
-                if (SegmentFount(Pieter.discoverd_planets, segment_x, segment_y) == false) {
-                    int id = (int)(Math.random()*planet_id_max);
-                    Pieter.planets.addAll(Planets.GeneratePlanets(segment_x, segment_y, count, id));
-                    Data.Coords coords = new Data.Coords(segment_x, segment_y);
-                    Pieter.discoverd_planets.addElement(coords);
-                }
-                //left
-                else if (SegmentFount(Pieter.discoverd_planets, segment_x - 1, segment_y) == false) {
-                    int id = (int)(Math.random()*planet_id_max);
-                    Pieter.planets.addAll(Planets.GeneratePlanets(segment_x - 1, segment_y, count, id));
-                    Data.Coords coords = new Data.Coords(segment_x - 1, segment_y);
-                    Pieter.discoverd_planets.addElement(coords);
-                }
-                //left top
-                else if (SegmentFount(Pieter.discoverd_planets, segment_x - 1, segment_y + 1) == false) {
-                    int id = (int)(Math.random()*planet_id_max);
-                    Pieter.planets.addAll(Planets.GeneratePlanets(segment_x - 1, segment_y + 1, count, id));
-                    Data.Coords coords = new Data.Coords(segment_x - 1, segment_y + 1);
-                    Pieter.discoverd_planets.addElement(coords);
-                }
-                //top
-                else if (SegmentFount(Pieter.discoverd_planets, segment_x, segment_y + 1) == false) {
-                    int id = (int)(Math.random()*planet_id_max);
-                    Pieter.planets.addAll(Planets.GeneratePlanets(segment_x, segment_y + 1, count, id));
-                    Data.Coords coords = new Data.Coords(segment_x, segment_y + 1);
-                    Pieter.discoverd_planets.addElement(coords);
-                }
-                //right top
-                else if (SegmentFount(Pieter.discoverd_planets, segment_x + 1, segment_y + 1) == false) {
-                    int id = (int)(Math.random()*planet_id_max);
-                    Pieter.planets.addAll(Planets.GeneratePlanets(segment_x + 1, segment_y + 1, count, id));
-                    Data.Coords coords = new Data.Coords(segment_x + 1, segment_y + 1);
-                    Pieter.discoverd_planets.addElement(coords);
-                }
-                //right
-                else if (SegmentFount(Pieter.discoverd_planets, segment_x + 1, segment_y) == false) {
-                    int id = (int)(Math.random()*planet_id_max);
-                    Pieter.planets.addAll(Planets.GeneratePlanets(segment_x + 1, segment_y, count, id));
-                    Data.Coords coords = new Data.Coords(segment_x + 1, segment_y);
-                    Pieter.discoverd_planets.addElement(coords);
-                }
-                //right bottom
-                else if (SegmentFount(Pieter.discoverd_planets, segment_x + 1, segment_y - 1) == false) {
-                    int id = (int)(Math.random()*planet_id_max);
-                    Pieter.planets.addAll(Planets.GeneratePlanets(segment_x + 1, segment_y - 1, count, id));
-                    Data.Coords coords = new Data.Coords(segment_x + 1, segment_y - 1);
-                    Pieter.discoverd_planets.addElement(coords);
-                }
-                //bottom
-                else if (SegmentFount(Pieter.discoverd_planets, segment_x, segment_y - 1) == false) {
-                    int id = (int)(Math.random()*planet_id_max);
-                    Pieter.planets.addAll(Planets.GeneratePlanets(segment_x, segment_y - 1, count, id));
-                    Data.Coords coords = new Data.Coords(segment_x, segment_y - 1);
-                    Pieter.discoverd_planets.addElement(coords);
-                }
-                //left bottom
-                else if (SegmentFount(Pieter.discoverd_planets, segment_x - 1, segment_y - 1) == false) {
-                    int id = (int)(Math.random()*planet_id_max);
-                    Pieter.planets.addAll(Planets.GeneratePlanets(segment_x - 1, segment_y - 1, count, id));
-                    Data.Coords coords = new Data.Coords(segment_x - 1, segment_y - 1);
-                    Pieter.discoverd_planets.addElement(coords);
-                }
-            } else {
-                int id = (int)(Math.random()*planet_id_max);
-                Pieter.planets.addAll(Planets.GeneratePlanets(0, 0, count, id));
-                Data.Coords coords = new Data.Coords(0, 0);
-                Pieter.discoverd_planets.addElement(coords);
-            }
-
-
-
-    }
+    //public static void AddToSegment(int segment_x, int segment_y, int count){
+    //        if (Pieter.discoverd_planets.size() > 0) {
+    //            //center
+    //            if (SegmentFount(Pieter.discoverd_planets, segment_x, segment_y) == false) {
+    //                int id = (int)(Math.random()*planet_id_max);
+    //                Pieter.planets.addAll(Planets.GeneratePlanets(segment_x, segment_y, count, id));
+    //                Data.Coords coords = new Data.Coords(segment_x, segment_y);
+    //                Pieter.discoverd_planets.addElement(coords);
+    //            }
+    //            //left
+    //            else if (SegmentFount(Pieter.discoverd_planets, segment_x - 1, segment_y) == false) {
+    //                int id = (int)(Math.random()*planet_id_max);
+    //                Pieter.planets.addAll(Planets.GeneratePlanets(segment_x - 1, segment_y, count, id));
+    //                Data.Coords coords = new Data.Coords(segment_x - 1, segment_y);
+    //                Pieter.discoverd_planets.addElement(coords);
+    //            }
+    //            //left top
+    //            else if (SegmentFount(Pieter.discoverd_planets, segment_x - 1, segment_y + 1) == false) {
+    //                int id = (int)(Math.random()*planet_id_max);
+    //                Pieter.planets.addAll(Planets.GeneratePlanets(segment_x - 1, segment_y + 1, count, id));
+    //                Data.Coords coords = new Data.Coords(segment_x - 1, segment_y + 1);
+    //                Pieter.discoverd_planets.addElement(coords);
+    //            }
+    //            //top
+    //            else if (SegmentFount(Pieter.discoverd_planets, segment_x, segment_y + 1) == false) {
+    //                int id = (int)(Math.random()*planet_id_max);
+    //                Pieter.planets.addAll(Planets.GeneratePlanets(segment_x, segment_y + 1, count, id));
+    //                Data.Coords coords = new Data.Coords(segment_x, segment_y + 1);
+    //                Pieter.discoverd_planets.addElement(coords);
+    //            }
+    //            //right top
+    //            else if (SegmentFount(Pieter.discoverd_planets, segment_x + 1, segment_y + 1) == false) {
+    //                int id = (int)(Math.random()*planet_id_max);
+    //                Pieter.planets.addAll(Planets.GeneratePlanets(segment_x + 1, segment_y + 1, count, id));
+    //                Data.Coords coords = new Data.Coords(segment_x + 1, segment_y + 1);
+    //                Pieter.discoverd_planets.addElement(coords);
+    //            }
+    //            //right
+    //            else if (SegmentFount(Pieter.discoverd_planets, segment_x + 1, segment_y) == false) {
+    //                int id = (int)(Math.random()*planet_id_max);
+    //                Pieter.planets.addAll(Planets.GeneratePlanets(segment_x + 1, segment_y, count, id));
+    //                Data.Coords coords = new Data.Coords(segment_x + 1, segment_y);
+    //                Pieter.discoverd_planets.addElement(coords);
+    //            }
+    //            //right bottom
+    //            else if (SegmentFount(Pieter.discoverd_planets, segment_x + 1, segment_y - 1) == false) {
+    //                int id = (int)(Math.random()*planet_id_max);
+    //                Pieter.planets.addAll(Planets.GeneratePlanets(segment_x + 1, segment_y - 1, count, id));
+    //                Data.Coords coords = new Data.Coords(segment_x + 1, segment_y - 1);
+    //                Pieter.discoverd_planets.addElement(coords);
+    //            }
+    //            //bottom
+    //            else if (SegmentFount(Pieter.discoverd_planets, segment_x, segment_y - 1) == false) {
+    //                int id = (int)(Math.random()*planet_id_max);
+    //                Pieter.planets.addAll(Planets.GeneratePlanets(segment_x, segment_y - 1, count, id));
+    //                Data.Coords coords = new Data.Coords(segment_x, segment_y - 1);
+    //                Pieter.discoverd_planets.addElement(coords);
+    //            }
+    //            //left bottom
+    //            else if (SegmentFount(Pieter.discoverd_planets, segment_x - 1, segment_y - 1) == false) {
+    //                int id = (int)(Math.random()*planet_id_max);
+    //                Pieter.planets.addAll(Planets.GeneratePlanets(segment_x - 1, segment_y - 1, count, id));
+    //                Data.Coords coords = new Data.Coords(segment_x - 1, segment_y - 1);
+    //                Pieter.discoverd_planets.addElement(coords);
+    //            }
+    //        } else {
+    //            int id = (int)(Math.random()*planet_id_max);
+    //            Pieter.planets.addAll(Planets.GeneratePlanets(0, 0, count, id));
+    //            Data.Coords coords = new Data.Coords(0, 0);
+    //            Pieter.discoverd_planets.addElement(coords);
+    //        }
+    //
+    //
+    //
+    //}
 
 
 
