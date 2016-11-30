@@ -24,7 +24,6 @@ public class Main extends StateBasedGame {
 
     public static void main(String[] args) throws SlickException {
         AppGameContainer gameContainer = new AppGameContainer(new Main(title), screenSize.width, screenSize.height, false);
-
         gameContainer.start();
     }
     

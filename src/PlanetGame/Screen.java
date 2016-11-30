@@ -7,30 +7,17 @@ import Particles.Particle;
 //import Planets.Planets;
 import Stars.Stars;
 import org.lwjgl.opengl.Display;
-import org.newdawn.slick.*;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
-import planet.CirclePlanet;
-import planet.Planet;
-import PlanetGame.Rocket;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import util.Util;
 import view.Camera;
@@ -39,25 +26,23 @@ import view.Camera;
 
 public class Screen extends BasicGameState{
 
-    //private List<Planets> planets;
-    public static List<Stars> stars = new ArrayList<>();
+    private List<Particle> particles = new ArrayList<>();
+    private static boolean[] keys = new boolean[256];
+    private Dimension screenSize;
     private Camera camera;
     private Rocket rocket;
-    static boolean[] keys = new boolean[256];
-    public static int angle;
-    public static double  coord_x, coord_y;
+    private Stars stars;
 
-    public static int texture_nr = 10; //number of textures that are generated when the game starts
-    private Emitter emitter = new FireEmitter();
-    private List<Particle> particles = new ArrayList<>();
+    int segment_stars_x, segment_stars_y;
     public static int BACKGROUND_SPEED = 10;
-    public static int MAX_STAR_RADIUS = 3;          //maximum radius of a star in the background
 
     @Override public int getID() {
         return Main.SCREEN;
     }
 
     @Override public void init(GameContainer container, StateBasedGame game) throws SlickException {
+        screenSize = new Dimension(container.getWidth(), container.getHeight());
+        stars = new Stars();
         rocket = new Rocket(0, 0);
 		camera = new Camera(rocket, .5f);
 
@@ -67,36 +52,36 @@ public class Screen extends BasicGameState{
     }
 
     @Override public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-    	float zoom = camera.getScale();
-    	g.translate(container.getWidth() / 2, container.getHeight() / 2);
-    	g.scale(zoom, zoom);
-    	g.translate(-rocket.getPosition().x, -rocket.getPosition().y);
-    	rocket.draw(g);
-    	
-    	//for(Stars star : Stars.stars) {
-        //    star.draw_stars(g, coord_x, coord_y);
-        //}
-        //
-        //for(Planets planet : planets) {
-        //    planet.draw_planet(g, coord_x, coord_y, planet.GetPlanet());
-        //}
-        //
+    	for(Stars star : Stars.stars) {
+            star.draw(g, rocket.position.x, rocket.position.y);
+        }
+
+        applyTranformation(g);
+        rocket.draw(g);
+
         for(Particle particle : particles) {
             particle.draw(g);
         }
-
-        
-        
     }
 
     @Override public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+        segment_stars_x = (int) (Math.floor((rocket.position.x / BACKGROUND_SPEED) / (Display.getWidth() / 2)));
+        segment_stars_y = (int) (Math.floor((rocket.position.y / BACKGROUND_SPEED) / (Display.getHeight() / 2)));
+        stars.addToSegment(segment_stars_x, segment_stars_y, 100);
+
+
         for(Iterator<Particle> it = particles.iterator(); it.hasNext();){
             Particle p = it.next();
             p.update();
             if(!p.isAlive()) it.remove();
         }
 
-        // Keyboard event
+        keyInput(delta); // TODO config compatible
+
+        rocket.update(delta);
+    }
+
+    void keyInput(int delta) {
         if(keys[Input.KEY_R])
             camera.setSubject(rocket);
         if(keys[Input.KEY_P])
@@ -108,30 +93,25 @@ public class Screen extends BasicGameState{
         if(keys[Input.KEY_Q]) {
             rocket.setAngle((rocket.angle - delta / 500f) % ((float) Math.PI * 2));
             rocket.setAngle(rocket.angle + ((rocket.angle < 0)? (float) Math.PI * 2 : 0));
-            particles.addAll(emitter.emit((Display.getWidth() / 2) - Math.cos(Math.toRadians(angle - 45)) * 40, (Display.getHeight() / 2) + Math.sin(Math.toRadians(-angle + 45)) * 40, -angle, new Color(200, 200, 200), 2));
+            //particles.addAll(emitter.emit((Display.getWidth() / 2) - Math.cos(Math.toRadians(angle - 45)) * 40, (Display.getHeight() / 2) + Math.sin(Math.toRadians(-angle + 45)) * 40, -angle, new Color(200, 200, 200), 2));
         }
         if(keys[Input.KEY_D]) {
             rocket.setAngle((rocket.angle + delta / 500f) % ((float) Math.PI * 2));
-            particles.addAll(emitter.emit((Display.getWidth() / 2) - Math.cos(Math.toRadians(angle + 45)) * 40, (Display.getHeight() / 2) + Math.sin(Math.toRadians(-angle - 45)) * 40, -angle, new Color(200, 200, 200), 2));
+            //particles.addAll(emitter.emit((Display.getWidth() / 2) - Math.cos(Math.toRadians(angle + 45)) * 40, (Display.getHeight() / 2) + Math.sin(Math.toRadians(-angle - 45)) * 40, -angle, new Color(200, 200, 200), 2));
         }
         if(keys[Input.KEY_Z]) {
-            rocket.setVelocity(rocket.velocity.add(Util.fromPolar(0.05f * delta, rocket.angle)));
-            particles.addAll(emitter.emit((Display.getWidth() / 2) - Math.cos(Math.toRadians(angle + ((Math.random() - 0.5) * 30))) * 40, (Display.getHeight() / 2) + Math.sin(Math.toRadians(-angle - ((Math.random() - 0.5) * 30))) * 40, -angle, new Color(250, 40, 40), 15)); //emit(x, y, angle);
+            rocket.setVelocity(rocket.velocity.add(Util.fromPolar(0.1f * delta, rocket.angle)));
+            //particles.addAll(emitter.emit((Display.getWidth() / 2) - Math.cos(Math.toRadians(angle + ((Math.random() - 0.5) * 30))) * 40, (Display.getHeight() / 2) + Math.sin(Math.toRadians(-angle - ((Math.random() - 0.5) * 30))) * 40, -angle, new Color(250, 40, 40), 15)); //emit(x, y, angle);
         }
-
-        rocket.update(delta);
     }
 
-    public boolean inCircle(int x, int y, int radius, int max_x, int max_y){
-        boolean condition = false;
-
-        if((x+radius)<max_x && (y+radius)<max_y && (x-radius)>0 && (y-radius)>0){
-            condition = true;
-        }
-
-        return condition;
+    void applyTranformation(Graphics g) {
+        float zoom = camera.getScale();
+        g.translate(screenSize.width / 2, screenSize.height / 2);
+        g.scale(zoom, zoom);
+        g.translate(-rocket.getPosition().x, -rocket.getPosition().y);
     }
-    
+
     @Override public void keyPressed(int key, char c) {
         keys[key] = true;
     }

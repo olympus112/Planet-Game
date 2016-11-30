@@ -15,82 +15,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Planets{
-    private double x;
-    private double y;
-    private double radius;
-    private Color color;
+    private float x;
+    private float y;
+    private float radius;
     private int planet;
-    static int planet_id_max = 2;
     private Image map;
-    public static Image bg;
-
     public static List<Image> planet_texture;
-    public static int id_planet = 0;
-    public static boolean Landed = false;
 
-    public Planets(double x, double y, double radius, Color color, int planet, Image map){
+    public Planets(float x, float y, float radius, int planet, Image map){
         this.x = x;
         this.y = y;
         this.radius = radius;
-        this.color = color;
         this.planet = planet;
         this.map = map;
     }
 
-    public Graphics draw_planet(Graphics g, double coord_x, double coord_y, int planet_id) throws SlickException {
-        double planet_x = (x-(radius/2))-coord_x+(Display.getWidth()/2);
-        double planet_y = (-y-(radius/2))+coord_y+(Display.getHeight()/2);
+    public Graphics draw_planet(Graphics g, float coord_x, float coord_y, int planet_id) throws SlickException {
+        float planet_x = (x-(radius/2))-coord_x+(Display.getWidth()/2);
+        float planet_y = (-y-(radius/2))+coord_y+(Display.getHeight()/2);
 
         //distance between planet and rocket
-        double delta_x = coord_x-(x-(radius/2));
-        double delta_y = (coord_y-(y+(radius/2)));
-        //angle between rocket and planet
-        double delta_angle = Math.toDegrees(Math.atan2(delta_y, delta_x));
-
-        //TODO: 1000 is the radius
-        //TODO: 0.01 is a scaling factor
-        if ((Math.abs(delta_x) < 1000) && (Math.abs(delta_y) < 1000)){
-
-            double a = 1000 - Math.sqrt(delta_x*delta_x + delta_y*delta_y);
-
-            if(Math.abs(delta_angle) < 90){
-                Pieter.velocity_x-=a*Math.cos(Math.toRadians(delta_angle))*0.01;
-                Pieter.velocity_y-=a*Math.sin(Math.toRadians(delta_angle))*0.01;
-            }else {
-                Pieter.velocity_x-=a*Math.cos(Math.toRadians(delta_angle))*0.01;
-                Pieter.velocity_y-=a*Math.sin(Math.toRadians(delta_angle))*0.01;
-            }
-
-            if(Pieter.angle > 360){
-                Pieter.angle-=360;
-            }
-            if(Pieter.angle < 0){
-                Pieter.angle+=360;
-            }
-        }
+        float delta_x = coord_x-(x-(radius/2));
+        float delta_y = (coord_y-(y+(radius/2)));
 
         if ((planet_x+radius)>0 && (planet_x-radius)<Display.getWidth() && (planet_y+radius)>0 && (planet_y-radius)<Display.getHeight()){
 
             new OutlineEffect(50,java.awt.Color.WHITE);
-            Circle circle = new Circle((float)planet_x,(float)planet_y,(float)(radius/2));
+            Circle circle = new Circle(planet_x, planet_y, radius/2);
             g.setColor(new Color(255,255,255,255));
             if (planet_id == 0){
                 g.texture(circle, map, true);
-                new Image("shadow3.png").draw((float)(planet_x-(radius/2)-(radius/10)),(float)(planet_y-(radius/2)-(radius/10)), (float)(radius+2*(radius/10)), (float)(radius+2*(radius/10)));
+                new Image("shadow3.png").draw(planet_x-(radius/2)-(radius/10), planet_y-(radius/2)-(radius/10), radius+2*(radius/10), radius+2*(radius/10));
             }
             if (planet_id == 1){
                 Image atmosphere = new Image("glow.png");
-                atmosphere.draw((float)(planet_x-(radius/2)-(radius/10)),(float)(planet_y-(radius/2)-(radius/10)), (float)(radius+2*(radius/10)), (float)(radius+2*(radius/10)));
+                atmosphere.draw(planet_x-(radius/2)-(radius/10), planet_y-(radius/2)-(radius/10), radius+2*(radius/10), radius+2*(radius/10));
                 g.texture(circle, map, true);
-                new Image("shadow3.png").draw((float)(planet_x-(radius/2)-(radius/10)),(float)(planet_y-(radius/2)-(radius/10)), (float)(radius+2*(radius/10)), (float)(radius+2*(radius/10)));
+                new Image("shadow3.png").draw(planet_x-(radius/2)-(radius/10), planet_y-(radius/2)-(radius/10), radius+2*(radius/10), radius+2*(radius/10));
             }
-
-        }
-
-        //detect collisios
-        double q = (coord_x-(x-(radius/2)))*(coord_x-(x-(radius/2))) + (coord_y-(y+(radius/2)))*(coord_y-(y+(radius/2)));
-        if (q < ((radius/2)*(radius/2))){
-            g.drawString("Collision", (float)Display.getWidth()/2, 50);
         }
 
         return g;
@@ -172,7 +134,7 @@ public class Planets{
                 int circle_cluster_y = (int)((Math.random()-0.5)*cirle_radius);
 
 
-                if (inCircle(circle_x+circle_cluster_x, circle_y+circle_cluster_y, cirle_radius, image_size,image_size)==true){
+                if (inCircle(circle_x + circle_cluster_x, circle_y + circle_cluster_y, cirle_radius, image_size, image_size)){
 
                     circle_x+=circle_cluster_x;
                     circle_y+=circle_cluster_y;
@@ -205,18 +167,17 @@ public class Planets{
         //TODO: the change of finding a planet
         if (change < 10){
             for (int i = 0; i < count; i++) {
-                double rand_radius = Pieter.MIN_PLANET_RADIUS + (Math.random()*(Pieter.MAX_PLANET_RADIUS-Pieter.MIN_PLANET_RADIUS)+1);
-                double rand_x = rand_radius + Math.random()*((Display.getWidth()/2)-rand_radius-rand_radius+1)*Pieter.PLANET_SEGMENT_SCALE;       //number between 0 and display witdh
-                double rand_y = rand_radius + Math.random()*((Display.getHeight()/2)-rand_radius-rand_radius+1)*Pieter.PLANET_SEGMENT_SCALE;      //number between 0 and display height
-                double seg_orig_x =  seg_x*(Display.getWidth()/2) ;
-                double seg_orig_y =  seg_y*(Display.getHeight()/2);
-                double _x = seg_orig_x + rand_x;
-                double _y = seg_orig_y + rand_y;
-                double rand_color = 55 + Math.random() * 100;
+                float rand_radius = (float) (Pieter.MIN_PLANET_RADIUS + (Math.random()*(Pieter.MAX_PLANET_RADIUS-Pieter.MIN_PLANET_RADIUS)+1));
+                float rand_x = (float) (rand_radius + Math.random()*((Display.getWidth()/2)-rand_radius-rand_radius+1)*Pieter.PLANET_SEGMENT_SCALE);       //number between 0 and display witdh
+                float rand_y = (float) (rand_radius + Math.random()*((Display.getHeight()/2)-rand_radius-rand_radius+1)*Pieter.PLANET_SEGMENT_SCALE);      //number between 0 and display height
+                float seg_orig_x =  seg_x*(Display.getWidth()/2) ;
+                float seg_orig_y =  seg_y*(Display.getHeight()/2);
+                float _x = seg_orig_x + rand_x;
+                float _y = seg_orig_y + rand_y;
 
                 if ((planet_texture.size()) > 0){
                     int random_texture = (int)(Math.random()*planet_texture.size());
-                    Planets s = new Planets(_x, _y, rand_radius, new Color((int)rand_color,(int)rand_color,(int)rand_color), planet_id, planet_texture.get(random_texture));
+                    Planets s = new Planets(_x, _y, rand_radius, planet_id, planet_texture.get(random_texture));
                     planets.add(s);
                 }
             }
@@ -239,7 +200,7 @@ public class Planets{
     //    return found;
     //}
 
-    //public static void AddToSegment(int segment_x, int segment_y, int count){
+    //public static void addToSegment(int segment_x, int segment_y, int count){
     //        if (Pieter.discoverd_planets.size() > 0) {
     //            //center
     //            if (SegmentFount(Pieter.discoverd_planets, segment_x, segment_y) == false) {

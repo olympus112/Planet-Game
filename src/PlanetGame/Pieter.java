@@ -6,39 +6,18 @@ import Particles.MainEngine;
 import Particles.Particle;
 import Planets.Planets;
 import Stars.Stars;
-import config.Config;
-import config.FileConfig;
-import config.InvalidConfigException;
-import config.KeyValueConfig;
-import javafx.scene.paint.ImagePattern;
-import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.*;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.*;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.util.BufferedImageUtil;
-import org.newdawn.slick.util.ResourceLoader;
-import planet.Planet;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Arc2D;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ThreadFactory;
 
-import static Planets.Planets.*;
+import static Planets.Planets.planet_texture;
 
 
 /**
@@ -53,41 +32,35 @@ public class Pieter extends BasicGameState {
     public static int MIN_PLANET_RADIUS = 50;
     public static int PLANET_SEGMENT_SCALE = 1;
     public static float ZOOM = 1;
-
-    // Particles
-    private Emitter emitter = new FireEmitter();
-    private Emitter mainengine = new MainEngine();
-    private List<Particle> particles = new ArrayList<>();
     public static List<Planets> planets = new ArrayList<>();
     public static List<Stars> stars = new ArrayList<>();
+    public static int count_p = 0;
+    //number of textures that are generated when the game starts
+    public static int texture_nr = 10;
+    public static int angle;
 
     //planet texture
-  /*  public static BufferedImage background;
+    public static BufferedImage background;
     public static Image backg_moon;
     public static Image backg_earth;
     public static Image planet1;
     public static Image planet2;
     public static Image planet3;
     public static Image planet4;
-    public static Image bg_circle;*/
-
-    public static int count_p = 0;
-
-    //get screen segment
-    int segment_stars_x, segment_stars_y, segment_planets_x, segment_planets_y;
-   //public static Vector<Data.Coords> discoverd_segments;
+    public static Image bg_circle;
+    public static float velocity_x, velocity_y, coord_x, coord_y;
+    static boolean[] keys = new boolean[256];
+   //public static Vector<Data.Coords> discovered_segments;
    //public static Vector<Data.Coords> discoverd_planets;
-
     //firt run
     public boolean firstrun = true;
+    //get screen segment
+    int segment_stars_x, segment_stars_y, segment_planets_x, segment_planets_y;
     int countdown = 0;
-
-    //number of textures that are generated when the game starts
-    public static int texture_nr = 10;
-
-    static boolean[] keys = new boolean[256];
-    public static int angle;
-    public static double velocity_x, velocity_y, coord_x, coord_y;
+    // Particles
+    private Emitter emitter = new FireEmitter();
+    private Emitter mainengine = new MainEngine();
+    private List<Particle> particles = new ArrayList<>();
 
     @Override public int getID() {
         return Main.PIETER;
@@ -107,7 +80,7 @@ public class Pieter extends BasicGameState {
 
         planet_texture = new ArrayList<>();
 
-        //discoverd_segments = new Vector<>();
+        //discovered_segments = new Vector<>();
         //discoverd_planets = new Vector<>();
 
         angle = 0;
@@ -138,7 +111,7 @@ public class Pieter extends BasicGameState {
             g.setColor(new Color(144,144,144));
             g.fill(panel);
 
-            float procent = (float) ((countdown/(double)(texture_nr-1.0))*100);
+            float procent = (float) ((countdown/ (texture_nr-1.0))*100);
             Rectangle progress = new Rectangle(0,0,300,20);
             progress.setWidth((procent/100)*progress.getWidth());
             progress.setX(Display.getWidth()/2-panel.getWidth()/2);
@@ -164,7 +137,7 @@ public class Pieter extends BasicGameState {
             //draw stars on background
             for (Iterator<Stars> it = Stars.stars.iterator(); it.hasNext(); ) {
                 Stars p = it.next();
-                p.draw_stars(g, coord_x, coord_y);
+                p.draw(g, coord_x, coord_y);
 
             }
 
@@ -228,10 +201,10 @@ public class Pieter extends BasicGameState {
             segment_planets_y = (int) (Math.floor((coord_y / PLANET_SEGMENT_SCALE) / (Display.getHeight() / 2)));
 
             //add stars to new segments
-            //Stars.AddToSegment(segment_stars_x, segment_stars_y, 100);
+            //Stars.addToSegment(segment_stars_x, segment_stars_y, 100);
             //
             ////add planets to new segments
-            //Planets.AddToSegment(segment_planets_x, segment_planets_y, 1);
+            //Planets.addToSegment(segment_planets_x, segment_planets_y, 1);
 
 
             //update coordinate rocket
@@ -242,16 +215,16 @@ public class Pieter extends BasicGameState {
             if (container.getInput().isKeyDown(Input.KEY_SPACE)) {
                 velocity_x += 1 * Math.cos(Math.toRadians(angle));
                 velocity_y -= 1 * Math.sin(Math.toRadians(angle));
-                particles.addAll(emitter.emit((int) (Display.getWidth() / 2) - Math.cos(Math.toRadians(angle + ((Math.random() - 0.5) * 30))) * 40, (int) (Display.getHeight() / 2) + Math.sin(Math.toRadians(-angle - ((Math.random() - 0.5) * 30))) * 40, -angle, new Color(250, 40, 40), 15)); //emit(x, y, angle)
+                particles.addAll(emitter.emit(Display.getWidth() / 2 - Math.cos(Math.toRadians(angle + ((Math.random() - 0.5) * 30))) * 40, Display.getHeight() / 2 + Math.sin(Math.toRadians(-angle - ((Math.random() - 0.5) * 30))) * 40, -angle, new Color(250, 40, 40), 15)); //emit(x, y, angle)
             }
 
             if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
-                particles.addAll(emitter.emit((int) (Display.getWidth() / 2) - Math.cos(Math.toRadians(angle - 45)) * 40, (int) (Display.getHeight() / 2) + Math.sin(Math.toRadians(-angle + 45)) * 40, -angle, new Color(200, 200, 200), 2)); //emit(x, y, angle)
+                particles.addAll(emitter.emit(Display.getWidth() / 2 - Math.cos(Math.toRadians(angle - 45)) * 40, Display.getHeight() / 2 + Math.sin(Math.toRadians(-angle + 45)) * 40, -angle, new Color(200, 200, 200), 2)); //emit(x, y, angle)
                 angle -= 2;
             }
 
             if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
-                particles.addAll(emitter.emit((int) (Display.getWidth() / 2) - Math.cos(Math.toRadians(angle + 45)) * 40, (int) (Display.getHeight() / 2) + Math.sin(Math.toRadians(-angle - 45)) * 40, -angle, new Color(200, 200, 200), 2)); //emit(x, y, angle)
+                particles.addAll(emitter.emit(Display.getWidth() / 2 - Math.cos(Math.toRadians(angle + 45)) * 40, Display.getHeight() / 2 + Math.sin(Math.toRadians(-angle - 45)) * 40, -angle, new Color(200, 200, 200), 2)); //emit(x, y, angle)
                 angle += 2;
             }
 
