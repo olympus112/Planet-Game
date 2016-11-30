@@ -36,7 +36,7 @@ public class Stars {
         if (star_x + radius > 0 && star_x < Display.getWidth() && star_y + radius > 0 && star_y < Display.getHeight()) {
             float alpha = (float) (min + Math.random() * ((max - min) + 1));
             g.setColor(new Color(color.r, color.g, color.b, alpha));
-            g.fillOval(coord_x, coord_y, radius, radius);
+            g.fillOval(star_x, star_y, radius, radius);
         }
     }
 

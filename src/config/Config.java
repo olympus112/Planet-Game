@@ -1,12 +1,12 @@
 package config;
 
 public interface Config {
-	public String get(String key);
-	public void set(String key, String value);
+	String get(String key);
+	void set(String key, String value);
 	
-	public int getInt(String key);
-	public void setInt(String key, int value);
+	int getInt(String key);
+	void setInt(String key, int value);
 	
-	public double getDouble(String key);
-	public void setDouble(String key, double value);
+	double getDouble(String key);
+	void setDouble(String key, double value);
 }

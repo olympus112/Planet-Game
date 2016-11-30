@@ -19,7 +19,7 @@ class Rocket implements PhysicsObject, Drawable{
     Vector2f position;
     Vector2f velocity;
     Image image;
-    public static float angle;
+    float angle;
     float maximumVelocity = 1000;
 
     Rocket(float x, float y) throws SlickException {

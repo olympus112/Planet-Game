@@ -1,0 +1,7 @@
+KeyExit:ESCAPE
+KeySetSubject:P
+KeyForward:Z
+KeyRight:D
+KeyLeft:Q
+ZoomIn:I
+ZoomOut:O

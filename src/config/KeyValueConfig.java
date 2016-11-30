@@ -9,19 +9,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class KeyValueConfig implements FileConfig {
+
+	public Map<String, String> keyValuePairs = new HashMap<>();
 	boolean dirty = false;
 	File configFile;
-	public Map<String, String> keyValuePairs = new HashMap<String, String>();
-	
+
 	public KeyValueConfig(File configFile) throws InvalidConfigException, IOException{
 		this.configFile = configFile;
 		refresh();
 	}
+
 	@Override public void refresh() throws InvalidConfigException, IOException{
 		FileReader configReader = new FileReader(configFile);
 		BufferedReader reader = new BufferedReader(configReader);
 		
-		Map<String, String> newKeyValuePairs = new HashMap<String, String>();
+		Map<String, String> newKeyValuePairs = new HashMap<>();
 		for(int lineNum = 1; reader.ready(); lineNum++){
 			String line = reader.readLine();
 			if(!line.startsWith("#") && line.trim().length() != 0){
@@ -37,16 +39,16 @@ public class KeyValueConfig implements FileConfig {
 		reader.close();
 		this.dirty = false;
 	}
+
 	@Override public void flush(File flushTo) throws IOException{
-		StringBuffer buffer = new StringBuffer(keyValuePairs.size() * 20); // estimated size per line
-		keyValuePairs.forEach((key, value) -> {
-			buffer.append(key + ": " + value + "\n");
-		});
+		StringBuilder buffer = new StringBuilder(keyValuePairs.size() * 20); // estimated size per line
+		keyValuePairs.forEach((key, value) -> buffer.append(key + ": " + value + "\n"));
 		FileWriter fw = new FileWriter(configFile);
 		fw.write(buffer.toString());
 		fw.flush();
 		fw.close();
 	}
+
 	@Override public void flush() throws IOException{
 		if(dirty)
 			flush(configFile);
